@@ -159,16 +159,21 @@ h3 {
    The shot is full column width capped at 320px, and the phone body is 88% of it (947 of 1076 px,
    the rest is the card sticking out). Left-aligned and 32px tall from 640px up. */
 .site-header .brand--wordmark img { width: calc(min(320px, 100vw - 2 * var(--gutter)) * 0.88); height: auto; }
-/* Phones: a soft lime light behind the logo, a bit larger than the logo itself and centred slightly
-   below it, so it reads as light falling on the background rather than a halo around the letters. */
+/* Phones: a soft lime light behind the logo, wider than the logo and centred slightly below it,
+   so it reads as light falling on the background rather than a halo around the letters.
+   The top is faded out before it reaches the page edge: on iPhone the page runs under the status
+   bar (viewport-fit=cover), which Safari paints solid, and a glow reaching up there shows a hard line.
+   Box (in logo-heights): top -33%, glow centre at 58%, vertical radius 140%. */
 .site-header { overflow-x: clip; }
 .site-header .brand--wordmark { position: relative; isolation: isolate; }
 .site-header .brand--wordmark::before {
   content: ""; position: absolute; z-index: -1; pointer-events: none;
-  left: 50%; top: 58%; width: 215%; height: 280%; transform: translate(-50%, -50%);
-  background: radial-gradient(closest-side,
-    rgba(205, 255, 87, .10) 0%, rgba(205, 255, 87, .072) 40%, rgba(205, 255, 87, .04) 62%,
-    rgba(205, 255, 87, .014) 82%, rgba(205, 255, 87, 0) 100%);
+  left: 50%; top: -33%; width: 215%; height: 231%; transform: translateX(-50%);
+  background: radial-gradient(50% 60.6% at 50% 39.4%,
+    rgba(205, 255, 87, .065) 0%, rgba(205, 255, 87, .047) 40%, rgba(205, 255, 87, .026) 62%,
+    rgba(205, 255, 87, .009) 82%, rgba(205, 255, 87, 0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.25) 10%, rgba(0,0,0,.7) 20%, #000 30%);
+  mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.25) 10%, rgba(0,0,0,.7) 20%, #000 30%);
   filter: blur(30px);
 }
 .site-footer .brand--wordmark img { width: auto; height: 28px; }
