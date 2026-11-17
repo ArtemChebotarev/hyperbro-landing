@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hyperbro: workout progression for iPhone</title>
+<meta name="description" content="Workout progression for lifters. Log your sets, and Hyperbro sets next week's targets automatically, with intervals and power work in the same plan. Free during early access on iPhone.">
+<meta name="theme-color" content="#0E0F11">
+<meta name="color-scheme" content="dark">
+
+<!-- PLACEHOLDER: replace APP_ID_PLACEHOLDER with the numeric App Store ID (e.g. 6412345678) -->
+<meta name="apple-itunes-app" content="app-id=APP_ID_PLACEHOLDER">
+
+<!-- Open Graph / Twitter. PLACEHOLDER: og-image.png (1200x630) must be created and placed next to index.html.
+     Once the domain is known, make og:image and og:url absolute URLs. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hyperbro">
+<meta property="og:title" content="Hyperbro: know exactly what to lift next week">
+<meta property="og:description" content="Workout progression for lifters. Log your sets, and Hyperbro sets next week's targets automatically, with intervals and power work in the same plan. Free during early access on iPhone.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="#SITE_URL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hyperbro: know exactly what to lift next week">
+<meta name="twitter:description" content="Log your sets, and Hyperbro sets next week's targets automatically. Intervals and power work in the same plan. Free during early access on iPhone.">
+<meta name="twitter:image" content="og-image.png">
+
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+<link rel="preload" as="image" href="images/01-next-weight.webp" type="image/webp" fetchpriority="high">
+
+<style>
+/* Hyperbro Design SDK tokens */
+:root {
+  --bg-page: #0E0F11;
+  --bg-raised: #141619;
+  --bg-sheet: #17191C;
+  --bg-card: #1A1C1F;
+  --bg-active: #2C3036;
+
+  --border: #2A2D31;
+  --divider: #1E2125;
+
+  --text-primary: #F5F5F4;
+  --text-secondary: #C9CDD2;
+  --text-muted: #8A9099;
+  --text-faint: #6B7076;
+
+  --accent: #CDFF57;
+  --on-accent: #232B0A;
+  --accent-chip-bg: #232B0A;
+  --accent-border: #4A5A20;
+
+  --brand-orange: #FF5B23; /* running time + timer action only */
+  --error: #FF7A7A;
+
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --gutter: max(20px, env(safe-area-inset-left), env(safe-area-inset-right));
+  --maxw: 1160px;
+  --radius-s: 12px;
+  --radius-m: 20px;
+  --radius-shot: 24px;
+
+  --fs-body: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --fs-small: 0.875rem;
+  --fs-h3: clamp(1.1rem, 1.02rem + 0.35vw, 1.3rem);
+  --fs-h2: clamp(1.9rem, 1.35rem + 2.3vw, 3rem);
+  --fs-hero: clamp(2.45rem, 1.5rem + 4.6vw, 4.6rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; }
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+button { font-family: inherit; }
+
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 10;
+  background: var(--accent); color: var(--on-accent);
+  padding: 12px 16px; border-radius: 8px; font-weight: 500; text-decoration: none;
+}
+.skip:focus { top: 12px; }
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--maxw) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Display headings: bold, tight, like the store screenshots. Second part goes lime on its own line. */
+.display {
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin: 0;
+  text-wrap: balance;
+}
+.display .accent { display: block; color: var(--accent); }
+h2.display { font-size: var(--fs-h2); margin-bottom: 0.5em; }
+h3 {
+  color: var(--text-primary);
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 0 0 0.4em;
+}
+.lede { max-width: 36em; }
+
+/* ---------- App Store badge (placeholder recreation; swap for Apple's official SVG badge) ---------- */
+.appstore {
+  display: inline-flex; align-items: center; gap: 9px;
+  min-height: 52px; padding: 7px 18px 7px 14px;
+  background: #000; color: #fff;
+  border: 1px solid #A6A6A6; border-radius: 11px;
+  text-decoration: none; line-height: 1;
+  transition: border-color .15s ease;
+}
+.appstore:hover { border-color: #fff; }
+.appstore svg { width: 26px; height: 26px; flex: none; }
+.appstore span { display: flex; flex-direction: column; gap: 3px; }
+.appstore small { font-size: 11px; font-weight: 400; }
+.appstore b { font-size: 21px; font-weight: 500; letter-spacing: -0.01em; }
+.appstore--compact { min-height: 44px; padding: 5px 12px 5px 10px; border-radius: 9px; gap: 7px; }
+.appstore--compact svg { width: 20px; height: 20px; }
+.appstore--compact small { font-size: 9px; }
+.appstore--compact b { font-size: 16px; }
+
+/* ---------- Header ---------- */
+.site-header { padding-top: max(14px, env(safe-area-inset-top)); padding-bottom: 14px; }
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 44px;
+  color: var(--text-primary); text-decoration: none;
+  font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em;
+}
+.brand img { width: 32px; height: 32px; flex: none; }
+.site-footer .brand { font-size: 1.1rem; }
+.site-footer .brand img { width: 28px; height: 28px; }
+
+/* ---------- Hero ---------- */
+.hero { padding: clamp(28px, 6vw, 64px) 0 clamp(64px, 9vw, 112px); }
+.hero .wrap { display: grid; gap: clamp(40px, 6vw, 64px); align-items: center; }
+.hero h1 { font-size: var(--fs-hero); }
+.hero-sub { margin: 1.1em 0 1.6em; font-size: clamp(1.05rem, 1rem + 0.35vw, 1.22rem); max-width: 31em; }
+.hero-cta { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.caption { font-size: var(--fs-small); color: var(--text-muted); margin: 0; }
+
+.shot {
+  border-radius: var(--radius-shot);
+  border: 1px solid var(--border);
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, .8);
+  background: var(--bg-sheet);
+  width: 100%;
+}
+.hero-visual { display: flex; justify-content: center; }
+.hero-visual .shot { max-width: 360px; }
+
+/* ---------- Sections ---------- */
+.section { padding-block: clamp(64px, 10vw, 120px); }
+.section--tight { padding-top: 0; }
+.band { background: var(--bg-raised); }
+
+/* Problem */
+.problem .wrap { display: grid; gap: 40px; align-items: center; }
+.log {
+  margin: 0;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-m);
+  padding: 20px 20px 18px; max-width: 460px; width: 100%;
+}
+.log-head { color: var(--text-primary); font-weight: 500; margin-bottom: 10px; }
+.log ol { list-style: none; margin: 0; padding: 0; }
+.log li {
+  display: grid; grid-template-columns: 4.6em 1fr; gap: 12px;
+  padding: 11px 0; border-top: 1px solid var(--border);
+  font-variant-numeric: tabular-nums; color: var(--text-primary);
+}
+.log time { color: var(--text-muted); }
+.log-foot { margin-top: 12px; color: var(--text-muted); font-size: var(--fs-small); }
+
+/* Steps */
+.steps-head { max-width: 40em; margin-bottom: clamp(32px, 5vw, 56px); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.step {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-m); padding: 24px 22px 22px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.step-n {
+  display: inline-grid; place-items: center; width: 40px; height: 40px; margin-bottom: 12px;
+  border-radius: 12px; background: var(--accent-chip-bg); border: 1px solid var(--accent-border);
+  color: var(--accent); font-weight: 500; font-size: 1.1rem; font-variant-numeric: tabular-nums;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 14px; }
+.chip {
+  border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px;
+  font-size: var(--fs-small); font-variant-numeric: tabular-nums;
+  background: var(--bg-sheet); color: var(--text-secondary);
+}
+.chip b { font-weight: 500; color: var(--text-primary); }
+.chip--accent { background: var(--accent-chip-bg); border-color: var(--accent-border); color: var(--accent); font-weight: 500; }
+
+/* Lifting + intervals */
+.combo .wrap { display: grid; gap: 44px; align-items: center; }
+.week { list-style: none; margin: 1.6em 0 0; padding: 0; border-top: 1px solid var(--border); max-width: 34em; }
+.week > li { padding: 12px 0; border-bottom: 1px solid var(--border); }
+.week .row, .week .addon { display: grid; grid-template-columns: 3em 1fr auto; align-items: center; gap: 12px; }
+.week .day { color: var(--text-muted); }
+.week .name { color: var(--text-primary); }
+.week .detail { color: var(--text-muted); font-size: var(--fs-small); font-variant-numeric: tabular-nums; text-align: right; }
+.week .addon { margin-top: 8px; font-size: var(--fs-small); }
+.week .tag {
+  justify-self: start; padding: 3px 9px; border-radius: 7px;
+  background: var(--accent-chip-bg); border: 1px solid var(--accent-border); color: var(--accent);
+}
+
+.timer {
+  margin: 0; justify-self: center;
+  width: min(340px, 100%);
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 28px;
+  padding: 22px 24px 24px; text-align: center;
+}
+.timer-head { color: var(--text-primary); font-weight: 500; }
+.timer-sub { color: var(--text-muted); font-size: var(--fs-small); margin-bottom: 14px; }
+.timer-ring { position: relative; width: 78%; margin: 0 auto 18px; aspect-ratio: 1; }
+.timer-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.timer-read { position: absolute; inset: 0; display: grid; place-content: center; gap: 2px; }
+.timer-time {
+  color: var(--text-primary); font-weight: 500; letter-spacing: -0.02em;
+  font-size: clamp(2.6rem, 2rem + 3vw, 3.4rem); line-height: 1; font-variant-numeric: tabular-nums;
+}
+.timer-label { color: var(--text-muted); font-size: var(--fs-small); }
+.timer-action {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0 22px; border-radius: 22px;
+  border: 1px solid var(--brand-orange); color: var(--brand-orange);
+  font-weight: 500; font-size: var(--fs-small);
+}
+
+/* Screenshots strip */
+.shots-head { margin-bottom: 28px; }
+.shots {
+  list-style: none; margin: 0; padding: 4px var(--gutter) 18px;
+  display: grid; grid-auto-flow: column; grid-auto-columns: min(78vw, 300px);
+  gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter); overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.shots::-webkit-scrollbar { display: none; }
+.shots li { scroll-snap-align: start; }
+.shots-controls { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; }
+.shots-controls[hidden] { display: none; }
+.shots-btn {
+  width: 44px; height: 44px; border-radius: 22px; flex: none;
+  display: grid; place-items: center; cursor: pointer; padding: 0;
+  background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary);
+}
+.shots-btn svg { width: 18px; height: 18px; }
+.shots-btn:disabled { opacity: .35; cursor: default; }
+.dots { display: flex; justify-content: center; }
+.dot-btn {
+  width: 28px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer;
+  display: grid; place-items: center;
+}
+.dot-btn::before {
+  content: ""; width: 8px; height: 8px; border-radius: 4px; background: var(--bg-active);
+  transition: width .2s ease, background-color .2s ease;
+}
+.dot-btn[aria-current="true"]::before { width: 20px; background: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .dot-btn::before { transition: none; } }
+
+/* Early access */
+.early-card {
+  background: var(--accent); color: var(--on-accent);
+  border-radius: 26px; padding: clamp(28px, 5vw, 56px);
+  display: grid; gap: 24px;
+}
+.early-card h2 { color: var(--on-accent); }
+.early-card p { max-width: 34em; font-size: clamp(1.02rem, 1rem + .3vw, 1.2rem); }
+.early-card .appstore { border-color: #000; }
+.early-card .appstore:focus-visible { outline-color: var(--on-accent); }
+
+/* Signup form */
+.signup .wrap { display: grid; gap: 32px; }
+.form {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-m);
+  padding: clamp(20px, 4vw, 32px); display: grid; gap: 20px; max-width: 560px; width: 100%;
+}
+.field label, .field legend { display: block; color: var(--text-primary); font-weight: 500; margin-bottom: 8px; padding: 0; }
+.field fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.input {
+  width: 100%; min-height: 52px; padding: 12px 14px;
+  font: inherit; color: var(--text-primary); background: var(--bg-sheet);
+  border: 1px solid var(--border); border-radius: var(--radius-s);
+}
+.input::placeholder { color: var(--text-faint); }
+.input:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+.input[aria-invalid="true"] { border-color: var(--error); }
+
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.seg label { margin: 0; position: relative; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.seg span {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  min-height: 52px; padding: 8px 10px; border-radius: var(--radius-s);
+  border: 1px solid var(--border); background: var(--bg-sheet); color: var(--text-secondary);
+  cursor: pointer; font-weight: 500; line-height: 1.2;
+}
+.seg input:checked + span { background: var(--accent-chip-bg); color: var(--accent); border-color: var(--accent-border); }
+.seg input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+.hint { color: var(--text-muted); font-size: var(--fs-small); margin-top: 8px; }
+
+.consent { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; font-size: var(--fs-small); }
+.consent input { width: 24px; height: 24px; margin: 2px 0 0; accent-color: var(--accent); }
+.consent label { padding-top: 3px; }
+.consent a { color: var(--text-primary); text-underline-offset: 2px; }
+.error { color: var(--error); font-size: var(--fs-small); margin-top: 6px; }
+.error:empty { display: none; }
+
+.btn {
+  min-height: 52px; padding: 12px 22px; border: 0; border-radius: var(--radius-s);
+  background: var(--accent); color: var(--on-accent);
+  font: inherit; font-weight: 500; font-size: 1.05rem; cursor: pointer;
+}
+.btn:hover { filter: brightness(1.05); }
+.btn[disabled] { opacity: .6; cursor: progress; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.status { border-radius: var(--radius-s); padding: 14px 16px; font-weight: 500; }
+.status[hidden] { display: none; }
+.status--ok { background: var(--accent-chip-bg); color: var(--accent); border: 1px solid var(--accent-border); }
+.status--err { background: #2A1416; color: #FFC9C9; border: 1px solid var(--error); }
+
+/* FAQ */
+.faq-list { max-width: 760px; border-top: 1px solid var(--border); }
+.faq-list details { border-bottom: 1px solid var(--border); }
+.faq-list summary {
+  list-style: none; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  min-height: 64px; padding: 14px 0;
+  color: var(--text-primary); font-size: var(--fs-h3); font-weight: 500;
+}
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after {
+  content: ""; flex: none; width: 14px; height: 14px;
+  background:
+    linear-gradient(var(--accent), var(--accent)) center / 100% 2px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) center / 2px 100% no-repeat;
+  transition: transform .2s ease;
+}
+.faq-list details[open] summary::after { transform: rotate(45deg); }
+.faq-list .answer { padding: 0 0 22px; max-width: 40em; }
+.faq-list .answer a { color: var(--text-primary); }
+@media (prefers-reduced-motion: reduce) { .faq-list summary::after { transition: none; } }
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--divider);
+  padding-top: 40px; padding-bottom: max(32px, env(safe-area-inset-bottom));
+  color: var(--text-muted); font-size: var(--fs-small);
+}
+.site-footer .wrap { display: grid; gap: 28px; }
+.footer-nav { display: grid; gap: 24px; }
+.footer-nav h2 { font-size: var(--fs-small); color: var(--text-primary); font-weight: 500; margin: 0 0 6px; }
+.footer-nav ul { list-style: none; margin: 0; padding: 0; }
+.footer-nav a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; color: var(--text-muted); }
+.footer-nav a:hover { color: var(--text-primary); text-decoration: underline; text-underline-offset: 3px; }
+.footer-nav .handle { margin-left: 6px; color: var(--text-faint); }
+
+/* ---------- Breakpoints ---------- */
+@media (min-width: 640px) {
+  .steps { grid-template-columns: repeat(3, 1fr); }
+  .hero-cta { flex-direction: row; align-items: center; gap: 18px; }
+  .footer-nav { grid-template-columns: repeat(2, max-content); column-gap: 72px; }
+  .early-card { grid-template-columns: 1fr auto; align-items: end; }
+}
+
+@media (min-width: 1024px) {
+  .hero .wrap { grid-template-columns: 1.2fr 0.8fr; }
+  .hero-visual { justify-content: flex-end; }
+  .hero-visual .shot { max-width: 380px; }
+  .problem .wrap { grid-template-columns: 1fr 1fr; gap: 72px; }
+  .problem .log { justify-self: end; }
+  .combo .wrap { grid-template-columns: 1.1fr 0.9fr; gap: 72px; }
+  .shots-outer { padding-inline: var(--gutter); }
+  .shots {
+    grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); grid-auto-columns: auto;
+    overflow: visible; padding-inline: 0; max-width: var(--maxw); margin-inline: auto; gap: 24px;
+  }
+  .shots-controls { display: none !important; }
+  .signup .wrap { grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+  .signup .form { justify-self: end; }
+  .site-footer .wrap { grid-template-columns: 1fr auto; align-items: start; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="apple" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="site-header">
+  <div class="wrap">
+    <!-- The vector wordmark (assets/brand/hyperbro-wordmark-dark.svg) can replace the text later. -->
+    <a class="brand" href="#top" id="brand-header">
+      <img src="images/icon-128.png" width="128" height="128" alt="">
+      <span>Hyperbro</span>
+    </a>
+    <!-- PLACEHOLDER: App Store link. Final href pattern:
+         https://apps.apple.com/app/idAPP_ID?pt=PROVIDER_TOKEN&ct=landing_header&mt=8 -->
+    <a class="appstore appstore--compact js-appstore" href="#APP_STORE_URL" data-ct="landing_header" id="appstore-header">
+      <svg aria-hidden="true"><use href="#apple"/></svg>
+      <span><small>Download on the</small><b>App Store</b></span>
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Hero -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div>
+        <h1 class="display" id="hero-title">Know exactly what to lift <span class="accent">next week.</span></h1>
+        <p class="hero-sub">Hyperbro plans your progression set by set, so every week is a bit harder than the last. Log your workout, and the app sets next week's targets.</p>
+        <div class="hero-cta">
+          <!-- PLACEHOLDER: App Store link with campaign token, e.g.
+               https://apps.apple.com/app/idAPP_ID?pt=PROVIDER_TOKEN&ct=landing_hero&mt=8 -->
+          <a class="appstore js-appstore" href="#APP_STORE_URL" data-ct="landing_hero" id="appstore-hero">
+            <svg aria-hidden="true"><use href="#apple"/></svg>
+            <span><small>Download on the</small><b>App Store</b></span>
+          </a>
+          <p class="caption">Free during early access · iPhone</p>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img class="shot" id="hero-shot" src="images/01-next-weight.webp" width="720" height="1565"
+             fetchpriority="high" decoding="async"
+             alt="Hyperbro screen headed 'Your next weight, calculated': a week 3 upper/lower workout with lateral raise sets logged at 5 kg for 27, 26 and 23 reps, marked 2 reps in reserve.">
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section class="section band problem" aria-labelledby="problem-title">
+    <div class="wrap">
+      <div>
+        <h2 class="display" id="problem-title">Stuck at the same numbers?</h2>
+        <p class="lede">After the first few years, progress stops being automatic. You train by feel, repeat the same weights for months, and hope something moves.</p>
+        <p class="lede">A notes app keeps a perfect record of it. It logs everything and never tells you what to do next.</p>
+      </div>
+      <figure class="log">
+        <div class="log-head">Bench press</div>
+        <ol>
+          <li><time datetime="2026-03-03">3 Mar</time><span>85 kg × 8, 8, 7</span></li>
+          <li><time datetime="2026-04-07">7 Apr</time><span>85 kg × 8, 8, 7</span></li>
+          <li><time datetime="2026-05-12">12 May</time><span>85 kg × 8, 7, 7</span></li>
+          <li><time datetime="2026-06-16">16 Jun</time><span>85 kg × 8, 8, 7</span></li>
+        </ol>
+        <figcaption class="log-foot">Four months of notes. Same bar.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="steps-head">
+        <h2 class="display" id="how-title">How it works</h2>
+        <p class="lede">Three steps, repeated every week of the cycle.</p>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <span class="step-n" aria-hidden="true">1</span>
+          <h3>Start a cycle from a template</h3>
+          <p>Pick a template and your training days. Hyperbro lays out a multi-week cycle: exercises, sets and starting targets.</p>
+          <div class="chips" aria-hidden="true"><span class="chip">4 weeks</span><span class="chip">4 days</span><span class="chip">Upper / Lower</span></div>
+        </li>
+        <li class="step">
+          <span class="step-n" aria-hidden="true">2</span>
+          <h3>Log your sets</h3>
+          <p>Weight, reps, and how many more reps you could have done. That last number is called reps in reserve (RIR). An honest guess is enough.</p>
+          <div class="chips" aria-hidden="true"><span class="chip"><b>85</b> kg</span><span class="chip"><b>8</b> reps</span><span class="chip"><b>2</b> left in the tank</span></div>
+        </li>
+        <li class="step">
+          <span class="step-n" aria-hidden="true">3</span>
+          <h3>Get next week's targets</h3>
+          <p>Hyperbro reads how each set went and sets next week's weight and reps automatically, so each week is a bit harder than the last.</p>
+          <div class="chips" aria-hidden="true"><span class="chip">85 kg × 8</span><span class="chip chip--accent">87.5 kg × 8</span></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Lifting + intervals -->
+  <section class="section band combo" aria-labelledby="combo-title">
+    <div class="wrap">
+      <div>
+        <h2 class="display" id="combo-title">Lifting and intervals <span class="accent">in one plan.</span></h2>
+        <p class="lede">Strength work drives the plan. Add power work and timed rounds, like heavy-bag rounds, to the same training days, and run them with the built-in timer for rest and intervals.</p>
+        <ul class="week" aria-label="Example training week">
+          <li>
+            <div class="row"><span class="day">Mon</span><span class="name">Upper A</span><span class="detail">5 exercises</span></div>
+            <div class="addon"><span></span><span class="tag">+ Heavy bag</span><span class="detail">6 × 3:00 rounds</span></div>
+          </li>
+          <li>
+            <div class="row"><span class="day">Tue</span><span class="name">Lower A</span><span class="detail">5 exercises</span></div>
+          </li>
+          <li>
+            <div class="row"><span class="day">Thu</span><span class="name">Upper B</span><span class="detail">5 exercises</span></div>
+            <div class="addon"><span></span><span class="tag">+ Med-ball throws</span><span class="detail">5 × 3</span></div>
+          </li>
+          <li>
+            <div class="row"><span class="day">Fri</span><span class="name">Lower B</span><span class="detail">5 exercises</span></div>
+            <div class="addon"><span></span><span class="tag">+ Intervals</span><span class="detail">10 × 0:20 / 0:40</span></div>
+          </li>
+        </ul>
+      </div>
+
+      <figure class="timer" role="img" aria-label="Round timer example: heavy bag, round 4 of 6, 2:14 left of 3:00">
+        <div class="timer-head">Heavy bag</div>
+        <div class="timer-sub">Round 4 of 6</div>
+        <div class="timer-ring">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="#2C3036" stroke-width="8"/>
+            <circle cx="60" cy="60" r="52" fill="none" stroke="#FF5B23" stroke-width="8" stroke-linecap="round"
+                    stroke-dasharray="326.7" stroke-dashoffset="83.5"/>
+          </svg>
+          <div class="timer-read">
+            <span class="timer-time">2:14</span>
+            <span class="timer-label">of 3:00</span>
+          </div>
+        </div>
+        <span class="timer-action">Pause</span>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="section" aria-labelledby="shots-title">
+    <div class="wrap shots-head">
+      <h2 class="display" id="shots-title">Inside the app</h2>
+    </div>
+    <div class="shots-outer">
+      <ul class="shots" id="shots" aria-label="App screenshots" tabindex="0">
+        <li id="shot-plan">
+          <img class="shot" src="images/02-plan-cycle.webp" width="720" height="1565" loading="lazy" decoding="async"
+               alt="Hyperbro screen headed 'Plan a cycle in minutes': reviewing an Upper / Lower template with boxing rounds, 4 weeks at 4 days per week, with day 1's exercises listed.">
+        </li>
+        <li id="shot-intervals">
+          <img class="shot" src="images/03-hybrid.webp" width="720" height="1565" loading="lazy" decoding="async"
+               alt="Hyperbro screen headed 'Lifting + intervals, one plan': a heavy-bag round timer at 1:46 of 2:00, round 1 of 2.">
+        </li>
+        <li id="shot-summary">
+          <img class="shot" src="images/04-cycle-summary.webp" width="720" height="1565" loading="lazy" decoding="async"
+               alt="Hyperbro screen headed 'Every cycle at a glance': cycle summary with 19 of 32 workouts, 225 sets, and a week-by-week grid of sets per muscle group.">
+        </li>
+        <li id="shot-progress">
+          <img class="shot" src="images/05-progress.webp" width="720" height="1565" loading="lazy" decoding="async"
+               alt="Hyperbro screen headed 'Watch the weight go up': face pull history going from 15.8 kg in week 1 to 18 kg in week 4 for the same reps.">
+        </li>
+      </ul>
+      <div class="wrap">
+        <div class="shots-controls" id="shots-controls" hidden>
+          <button class="shots-btn" type="button" id="shots-prev" aria-label="Previous screenshot" aria-controls="shots">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dots" id="shots-dots"></div>
+          <button class="shots-btn" type="button" id="shots-next" aria-label="Next screenshot" aria-controls="shots">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Early access -->
+  <section class="section section--tight early" aria-labelledby="early-title">
+    <div class="wrap">
+      <div class="early-card">
+        <div>
+          <h2 class="display" id="early-title">Free during early access.</h2>
+          <p>Hyperbro is free to use while it's in early access. When paid plans arrive, everyone who joined early gets a bonus for being here first.</p>
+        </div>
+        <!-- PLACEHOLDER: App Store link with campaign token, e.g. ...&ct=landing_early_access -->
+        <a class="appstore js-appstore" href="#APP_STORE_URL" data-ct="landing_early_access" id="appstore-early">
+          <svg aria-hidden="true"><use href="#apple"/></svg>
+          <span><small>Download on the</small><b>App Store</b></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Updates + Android waitlist -->
+  <section class="section band signup" id="waitlist" aria-labelledby="signup-title">
+    <div class="wrap">
+      <div>
+        <h2 class="display" id="signup-title">On Android? <span class="accent">Join the waitlist.</span></h2>
+        <p class="lede">Hyperbro is iPhone-only for now. An Android version is planned. Leave your email and we'll tell you when it's ready.</p>
+        <p class="lede">On iPhone already? Sign up for occasional updates about new features and paid plans.</p>
+      </div>
+
+      <!-- PLACEHOLDER: newsletter endpoint. Swap action (and field names if your provider needs others,
+           e.g. EMAIL / tags) or replace this <form> with the provider's embed, keeping the ids below. -->
+      <form class="form" id="signup-form" action="#NEWSLETTER_ENDPOINT" method="post" aria-describedby="signup-note">
+        <div class="field">
+          <label for="email">Email</label>
+          <input class="input" id="email" name="email" type="email" autocomplete="email" inputmode="email"
+                 placeholder="you@example.com" required aria-describedby="email-error">
+          <p class="error" id="email-error" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <fieldset>
+            <legend>Which phone do you use?</legend>
+            <div class="seg">
+              <label><input type="radio" name="platform" value="ios" checked><span>I'm on iPhone</span></label>
+              <label><input type="radio" name="platform" value="android"><span>I'm on Android</span></label>
+            </div>
+          </fieldset>
+          <p class="hint" id="signup-note">Android sign-ups are added to the Android waitlist.</p>
+          <!-- Tag sent to the newsletter service; set by script from the choice above.
+               Without JS, use the "platform" field (ios / android) to segment. -->
+          <input type="hidden" name="tags" id="tags" value="ios">
+        </div>
+
+        <!-- Honeypot: leave empty. Bots tend to fill it. -->
+        <div class="hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div>
+          <div class="consent">
+            <input id="consent" name="consent" type="checkbox" value="yes" required aria-describedby="consent-error">
+            <label for="consent">I agree to receive emails about Hyperbro. Unsubscribe anytime. Read the <a href="#PRIVACY_URL">privacy policy</a>.</label>
+          </div>
+          <p class="error" id="consent-error" aria-live="polite"></p>
+        </div>
+
+        <button class="btn" type="submit" id="signup-submit">Sign up</button>
+
+        <div class="status status--ok" id="signup-success" role="status" tabindex="-1" hidden></div>
+        <div class="status status--err" id="signup-error" role="alert" hidden>Couldn't sign you up just now. Check your connection and try again.</div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <h2 class="display" id="faq-title">Questions</h2>
+      <div class="faq-list">
+        <details>
+          <summary>Is it free?</summary>
+          <div class="answer"><p>Yes, during early access. Paid plans will come later, and people who joined early will get a bonus when they launch.</p></div>
+        </details>
+        <details>
+          <summary>Do I need to know what RIR is?</summary>
+          <div class="answer"><p>No. RIR means reps in reserve: how many more clean reps you could have done when you stopped the set. If you did 8 and had about 2 more in you, that's 2. A rough, honest guess is all the app needs, and it gets easier with practice.</p></div>
+        </details>
+        <details>
+          <summary>Where is my data stored?</summary>
+          <div class="answer"><p>On your iPhone. There's no account to create right now, and your training log stays on your device.</p></div>
+        </details>
+        <details>
+          <summary>Is there an Android version?</summary>
+          <div class="answer"><p>It's planned. <a href="#waitlist">Join the Android waitlist</a> and we'll email you when it's ready.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="#top" id="brand-footer">
+        <img src="images/icon-128.png" width="128" height="128" alt="" loading="lazy" decoding="async">
+        <span>Hyperbro</span>
+      </a>
+      <p style="margin-top:10px">© <span id="year">2026</span> Hyperbro</p>
+    </div>
+    <nav class="footer-nav" aria-label="Footer">
+      <div>
+        <h2>Follow Hyperbro App</h2>
+        <ul>
+          <!-- PLACEHOLDER: social URLs -->
+          <li><a href="#TIKTOK_URL" id="social-tiktok" rel="noopener">TikTok<span class="handle">@hyperbro.app</span></a></li>
+          <li><a href="#INSTAGRAM_URL" id="social-instagram" rel="noopener">Instagram<span class="handle">@hyperbro.app</span></a></li>
+          <li><a href="#YOUTUBE_URL" id="social-youtube" rel="noopener">YouTube<span class="handle">@hyperbroapp</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Help</h2>
+        <ul>
+          <li><a href="#SUPPORT_URL" id="link-support">Support</a></li>
+          <li><a href="#PRIVACY_URL" id="link-privacy">Privacy policy</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Screenshot slider: buttons + dots on mobile. Without JS it's a plain scroll-snap strip. */
+  (function () {
+    var list = document.getElementById('shots');
+    var controls = document.getElementById('shots-controls');
+    var prev = document.getElementById('shots-prev');
+    var next = document.getElementById('shots-next');
+    var dotsWrap = document.getElementById('shots-dots');
+    if (!list || !controls) return;
+    var items = Array.prototype.slice.call(list.children);
+    var dots = items.map(function (item, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'dot-btn';
+      b.setAttribute('aria-label', 'Show screenshot ' + (i + 1) + ' of ' + items.length);
+      b.setAttribute('aria-controls', 'shots');
+      b.addEventListener('click', function () { go(i); });
+      dotsWrap.appendChild(b);
+      return b;
+    });
+    controls.hidden = false;
+
+    function step() {
+      return items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : list.clientWidth;
+    }
+    function atEnd() { return list.scrollLeft + list.clientWidth >= list.scrollWidth - 2; }
+    function current() {
+      if (atEnd()) return items.length - 1;
+      return Math.max(0, Math.min(items.length - 1, Math.round(list.scrollLeft / step())));
+    }
+    function go(i) {
+      list.scrollTo({ left: items[i].offsetLeft - items[0].offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
+    }
+    function update() {
+      var c = current();
+      dots.forEach(function (d, i) { d.setAttribute('aria-current', i === c ? 'true' : 'false'); });
+      prev.disabled = list.scrollLeft <= 2;
+      next.disabled = atEnd();
+    }
+    prev.addEventListener('click', function () { go(Math.max(0, current() - 1)); });
+    next.addEventListener('click', function () { go(Math.min(items.length - 1, current() + 1)); });
+    var t;
+    list.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(update, 60); }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  /* Signup form: progressive enhancement. Without JS the form posts natively with HTML validation. */
+  var form = document.getElementById('signup-form');
+  if (!form) return;
+  form.noValidate = true;
+
+  var email = document.getElementById('email');
+  var consent = document.getElementById('consent');
+  var emailErr = document.getElementById('email-error');
+  var consentErr = document.getElementById('consent-error');
+  var submit = document.getElementById('signup-submit');
+  var ok = document.getElementById('signup-success');
+  var err = document.getElementById('signup-error');
+  var tags = document.getElementById('tags');
+  var hp = document.getElementById('website');
+
+  function platform() {
+    var c = form.querySelector('input[name="platform"]:checked');
+    return c ? c.value : 'ios';
+  }
+  form.addEventListener('change', function (e) {
+    if (e.target.name === 'platform') tags.value = platform() === 'android' ? 'android-waitlist' : 'ios';
+    if (e.target === consent && consent.checked) { consentErr.textContent = ''; consent.removeAttribute('aria-invalid'); }
+  });
+  email.addEventListener('input', function () {
+    if (email.getAttribute('aria-invalid') && email.validity.valid) { emailErr.textContent = ''; email.removeAttribute('aria-invalid'); }
+  });
+
+  function validate() {
+    var first = null;
+    emailErr.textContent = ''; consentErr.textContent = '';
+    email.removeAttribute('aria-invalid'); consent.removeAttribute('aria-invalid');
+    if (!email.value.trim()) {
+      emailErr.textContent = 'Enter your email address.'; email.setAttribute('aria-invalid', 'true'); first = email;
+    } else if (!email.validity.valid || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+      emailErr.textContent = 'Enter an email like name@example.com.'; email.setAttribute('aria-invalid', 'true'); first = email;
+    }
+    if (!consent.checked) {
+      consentErr.textContent = 'Tick the box to agree to receive emails.'; consent.setAttribute('aria-invalid', 'true'); first = first || consent;
+    }
+    if (first) first.focus();
+    return !first;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    err.hidden = true;
+    if (!validate()) return;
+    if (hp && hp.value) return; // likely a bot
+
+    var android = platform() === 'android';
+    tags.value = android ? 'android-waitlist' : 'ios';
+    var action = form.getAttribute('action') || '';
+    submit.disabled = true; submit.textContent = 'Signing up…';
+
+    var req = action.charAt(0) === '#'
+      ? new Promise(function (r) { setTimeout(r, 500); }) // placeholder endpoint: simulate success
+      : fetch(action, { method: 'POST', body: new FormData(form), mode: 'no-cors' });
+
+    req.then(function () {
+      ok.textContent = android
+        ? "You're on the Android waitlist. We'll email " + email.value.trim() + " when it's ready."
+        : "You're signed up. Updates will go to " + email.value.trim() + ".";
+      Array.prototype.forEach.call(form.children, function (el) { if (el !== ok && el !== err) el.hidden = true; });
+      ok.hidden = false; ok.focus();
+    }).catch(function () {
+      err.hidden = false;
+      submit.disabled = false; submit.textContent = 'Sign up';
+    });
+  });
+})();
+</script>
+</body>
+</html>
