@@ -144,23 +144,20 @@ h3 {
 .appstore span { display: flex; flex-direction: column; gap: 3px; }
 .appstore small { font-size: 11px; font-weight: 400; }
 .appstore b { font-size: 21px; font-weight: 500; letter-spacing: -0.01em; }
-.appstore--compact { min-height: 44px; padding: 5px 12px 5px 10px; border-radius: 9px; gap: 7px; }
-.appstore--compact svg { width: 20px; height: 20px; }
-.appstore--compact small { font-size: 9px; }
-.appstore--compact b { font-size: 16px; }
 
 /* ---------- Header ---------- */
 .site-header { padding-top: max(14px, env(safe-area-inset-top)); padding-bottom: 14px; }
-.site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.site-header .wrap { display: flex; align-items: center; justify-content: center; }
 .brand {
   display: inline-flex; align-items: center; gap: 10px; min-height: 44px;
   color: var(--text-primary); text-decoration: none;
   font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em;
 }
 .brand img { width: 32px; height: 32px; flex: none; }
-.brand--wordmark img { width: auto; height: 26px; }
-.site-footer .brand { font-size: 1.1rem; }
-.site-footer .brand img { width: 28px; height: 28px; }
+.brand--wordmark img { width: auto; height: 32px; }
+/* Header: logo only. Centred and larger on phones, left-aligned from 640px up. */
+.site-header .brand--wordmark img { height: 40px; }
+.site-footer .brand--wordmark img { width: auto; height: 28px; }
 
 /* ---------- Hero ---------- */
 .hero { padding: clamp(28px, 6vw, 64px) 0 clamp(64px, 9vw, 112px); overflow-x: clip; } /* the phone glow is wider than the viewport on phones */
@@ -404,6 +401,8 @@ h3 {
 
 /* ---------- Breakpoints ---------- */
 @media (min-width: 640px) {
+  .site-header .wrap { justify-content: flex-start; }
+  .site-header .brand--wordmark img { height: 32px; }
   .steps { grid-template-columns: repeat(3, 1fr); }
   .hero-cta { flex-direction: row; align-items: center; gap: 18px; }
   .footer-nav { grid-template-columns: repeat(2, max-content); column-gap: 72px; }
@@ -444,12 +443,6 @@ h3 {
   <div class="wrap">
     <a class="brand brand--wordmark" href="#top" id="brand-header">
       <img src="images/hyperbro-wordmark.svg" width="2595" height="670" alt="Hyperbro">
-    </a>
-    <!-- PLACEHOLDER: App Store link. Final href pattern:
-         https://apps.apple.com/app/idAPP_ID?pt=PROVIDER_TOKEN&ct=landing_header&mt=8 -->
-    <a class="appstore appstore--compact js-appstore" href="#APP_STORE_URL" data-ct="landing_header" id="appstore-header">
-      <svg aria-hidden="true"><use href="#apple"/></svg>
-      <span><small>Download on the</small><b>App Store</b></span>
     </a>
   </div>
 </header>
@@ -588,6 +581,10 @@ h3 {
           <img class="shot" src="images/02-plan-cycle.webp" width="720" height="1565" loading="lazy" decoding="async"
                alt="Hyperbro screen headed 'Plan a cycle in minutes': reviewing an Upper / Lower template with boxing rounds, 4 weeks at 4 days per week, with day 1's exercises listed.">
         </li>
+        <li id="shot-progress">
+          <img class="shot" src="images/05-progress.webp" width="720" height="1565" loading="lazy" decoding="async"
+               alt="Hyperbro screen headed 'Watch the weight go up': face pull history going from 15.8 kg in week 1 to 18 kg in week 4 for the same reps.">
+        </li>
         <li id="shot-intervals">
           <img class="shot" src="images/03-hybrid.webp" width="720" height="1565" loading="lazy" decoding="async"
                alt="Hyperbro screen headed 'Lifting + intervals, one plan': a heavy-bag round timer at 1:46 of 2:00, round 1 of 2.">
@@ -595,10 +592,6 @@ h3 {
         <li id="shot-summary">
           <img class="shot" src="images/04-cycle-summary.webp" width="720" height="1565" loading="lazy" decoding="async"
                alt="Hyperbro screen headed 'Every cycle at a glance': cycle summary with 19 of 32 workouts, 225 sets, and a week-by-week grid of sets per muscle group.">
-        </li>
-        <li id="shot-progress">
-          <img class="shot" src="images/05-progress.webp" width="720" height="1565" loading="lazy" decoding="async"
-               alt="Hyperbro screen headed 'Watch the weight go up': face pull history going from 15.8 kg in week 1 to 18 kg in week 4 for the same reps.">
         </li>
       </ul>
       <div class="wrap">
@@ -716,9 +709,8 @@ h3 {
 <footer class="site-footer">
   <div class="wrap">
     <div>
-      <a class="brand" href="#top" id="brand-footer">
-        <img src="images/icon-128.png" width="128" height="128" alt="" loading="lazy" decoding="async">
-        <span>Hyperbro</span>
+      <a class="brand brand--wordmark" href="#top" id="brand-footer">
+        <img src="images/hyperbro-wordmark.svg" width="2595" height="670" alt="Hyperbro" loading="lazy" decoding="async">
       </a>
       <p style="margin-top:10px">© <span id="year">2026</span> Hyperbro</p>
     </div>
