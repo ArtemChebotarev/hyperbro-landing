@@ -46,7 +46,7 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* Header: same as the landing's. Phones: the wordmark centred, as wide as the landing's hero phone
    (88% of min(320px, column)), with the same faint glow faded out before the top edge.
-   From 640px up: left-aligned, 32px tall, no glow. */
+   Same size and glow on desktop, left-aligned from 640px up. */
 .site-header { padding-top: calc(28px + env(safe-area-inset-top)); padding-bottom: 14px; overflow-x: clip; }
 .site-header .wrap { display: flex; align-items: center; justify-content: center; }
 .brand { position: relative; isolation: isolate; display: inline-flex; align-items: center; min-height: 44px; }
@@ -62,10 +62,7 @@ img { display: block; max-width: 100%; height: auto; }
   filter: blur(30px);
 }
 @media (min-width: 640px) {
-  .site-header { padding-top: max(14px, env(safe-area-inset-top)); }
   .site-header .wrap { justify-content: flex-start; }
-  .brand img { width: auto; height: 32px; }
-  .brand::before { content: none; }
 }
 
 /* Content */

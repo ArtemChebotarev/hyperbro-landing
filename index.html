@@ -163,9 +163,9 @@ h3 {
 }
 .brand img { width: 32px; height: 32px; flex: none; }
 .brand--wordmark img { width: auto; height: 32px; }
-/* Header: logo only. On phones it is centred and as wide as the phone body in the hero shot.
-   The shot is full column width capped at 320px, and the phone body is 88% of it (947 of 1076 px,
-   the rest is the card sticking out). Left-aligned and 32px tall from 640px up. */
+/* Header: logo only, as wide as the phone body in the hero shot on phones (the shot is full column
+   width capped at 320px, the phone body is 88% of it: 947 of 1076 px). Same size and glow on desktop;
+   it is centred on phones and left-aligned from 640px up. */
 .site-header .brand--wordmark img { width: calc(min(320px, 100vw - 2 * var(--gutter)) * 0.88); height: auto; }
 /* Phones: a soft lime light behind the logo, wider than the logo and centred slightly below it,
    so it reads as light falling on the background rather than a halo around the letters.
@@ -373,10 +373,7 @@ h3 {
 
 /* ---------- Breakpoints ---------- */
 @media (min-width: 640px) {
-  .site-header { padding-top: max(14px, env(safe-area-inset-top)); }
-  .site-header .brand--wordmark::before { content: none; }
   .site-header .wrap { justify-content: flex-start; }
-  .site-header .brand--wordmark img { width: auto; height: 32px; }
   .footer-nav { grid-template-columns: repeat(2, max-content); column-gap: 72px; }
   .early-card { grid-template-columns: 1fr auto; align-items: end; }
 }
