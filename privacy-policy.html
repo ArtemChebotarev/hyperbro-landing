@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy Policy · Hyperbro</title>
+<meta name="description" content="What happens to your data when you use Hyperbro: workouts stay on your phone, a few anonymous usage events, no ads.">
+<meta name="theme-color" content="#0E0F11">
+<meta name="color-scheme" content="dark">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/legal.css?v=2">
+</head>
+<body>
+<!--
+Maintenance notes (GT-244). Moved here from gym-tracker-mobile/docs/privacy-policy.md.
+IP discard checked 2026-11-12: EU org default is on and events carry no $ip — section 3 relies on it.
+Retention "1 year" is the PostHog Free plan (fixed). A paid plan keeps events 3 / 5 / 7 years
+(Boost / Scale / Enterprise) unless lowered in project settings — update section 3 on upgrade.
+Source of truth for what is collected: state/README.md → "Telemetry" → "What is collected".
+Any new event or property means updating this page AND the App Store privacy labels.
+Section 5 covers this website's Android waitlist form (MailerLite).
+-->
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="images/hyperbro-wordmark.svg" width="2595" height="670" alt="Hyperbro home"></a>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <h1>Privacy Policy</h1>
+    <p class="meta">Last updated: 17 November 2026</p>
+
+    <p class="lead">Hyperbro is a workout tracker made by Artem Chebotarov, an individual developer. This policy explains what happens to your data when you use the app or this website. The short version:</p>
+    <div class="card">
+      <ul>
+        <li><strong>Your workouts stay on your phone.</strong> There is no account, no sign-in and no server that holds your training data.</li>
+        <li><strong>The app sends a few anonymous usage events</strong> so I can see whether people actually train with it and come back. They contain no names, weights, notes or anything you type, and they are not linked to you.</li>
+        <li><strong>Joining the Android waitlist?</strong> Your email is used only to tell you when Hyperbro for Android is ready.</li>
+        <li><strong>No ads, no tracking, nothing is sold.</strong></li>
+      </ul>
+    </div>
+
+    <h2 id="1-who-is-responsible">1. Who is responsible</h2>
+    <p>Artem Chebotarov is the controller of the data described here. Contact: <a href="mailto:hyperbro.app@gmail.com">hyperbro.app@gmail.com</a>.</p>
+
+    <h2 id="2-data-stored-on-your-device">2. Data stored on your device</h2>
+    <p>Everything you create in Hyperbro — training cycles and templates, workouts, sets, weights, reps, body weight if you enter it, your own exercises and settings — is stored in a database inside the app on your device. It is not sent to me or to anyone else, and I cannot see it.</p>
+    <p>Because there is no backup or sync yet, <strong>deleting the app deletes this data permanently.</strong> If you export a backup or diagnostic logs from the app, the file goes only where you choose to share it through the system share sheet.</p>
+    <p>Rest-timer alerts are local notifications scheduled on your device. No push service is involved.</p>
+
+    <h2 id="3-anonymous-usage-analytics">3. Anonymous usage analytics</h2>
+    <p>To understand whether the app is useful, Hyperbro sends a small number of events to <a href="https://posthog.com" rel="noopener">PostHog</a>, an analytics service, hosted in the European Union.</p>
+
+    <h3>Events sent</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Event</th><th>When</th><th>Extra information</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Event">App opened</td><td data-label="When">The app starts or returns from the background</td><td data-label="Extra information">—</td></tr>
+          <tr><td data-label="Event">Cycle created</td><td data-label="When">You save a new training cycle</td><td data-label="Extra information">How it was built: from scratch, from a template, or by copying a week</td></tr>
+          <tr><td data-label="Event">Workout completed</td><td data-label="When">You finish a workout day with work logged in it</td><td data-label="Extra information">Its type: strength or hybrid</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Sent with each event</strong> (added automatically by the analytics SDK): app version and build, operating system and its version, device manufacturer and model, screen size, language and region setting, time zone.</p>
+    <p><strong>Identifier:</strong> a random ID created on your device when the app first runs. It is not your Apple ID, email, name or advertising identifier (IDFA), and it is never linked to any of them. Reinstalling the app creates a new ID.</p>
+    <p><strong>Never sent:</strong> your workouts, weights, reps, exercise or template names or anything else you type; your location; screen views or taps; screen recordings; crash reports; contacts, photos, health data or microphone.</p>
+    <p><strong>IP address:</strong> like any internet request, the analytics request reaches PostHog's servers with your device's IP address. PostHog is configured not to store it and not to derive a location from it.</p>
+    <p><strong>Why (legal basis):</strong> my legitimate interest in understanding whether the app works for the people using it, so I can improve it (Art. 6(1)(f) GDPR). The data is minimal and anonymous by design.</p>
+    <p><strong>How long:</strong> events are kept for up to 1 year, after which PostHog deletes them.</p>
+    <p><strong>Who processes it:</strong> PostHog Inc. acts as a processor on my behalf, with servers in the EU. It does not use this data for its own purposes. Analytics data is not shared with anyone else, not sold and not used for advertising.</p>
+
+    <h2 id="4-links-to-other-services">4. Links to other services</h2>
+    <p>The exercise screen has a link that opens a YouTube search for the exercise's technique. Tapping it sends the exercise name to YouTube as the search query — including the name of a custom exercise you created. From then on YouTube's (Google's) privacy policy applies. Nothing is sent until you tap the link.</p>
+
+    <h2 id="5-website-and-android-waitlist">5. This website and the Android waitlist</h2>
+    <p>This website has no analytics, ads or tracking cookies. It is hosted on GitHub Pages; like any web host, GitHub receives your IP address when your browser loads the page.</p>
+    <p>If you join the Android waitlist, your email address is stored with <a href="https://www.mailerlite.com" rel="noopener">MailerLite</a> (UAB "MailerLite", Lithuania, EU), which sends the emails on my behalf. You first get an email asking you to confirm; MailerLite records when you signed up and confirmed, and from which IP address, as proof of your consent.</p>
+    <p><strong>Why (legal basis):</strong> your consent (Art. 6(1)(a) GDPR). <strong>What you get:</strong> an email when Hyperbro for Android is ready. <strong>How long:</strong> until you unsubscribe — every email has an unsubscribe link — or ask me to delete your address. It is not shared with anyone else and not sold.</p>
+
+    <h2 id="6-your-rights">6. Your rights</h2>
+    <p>Under the GDPR you have the right to access, correct, delete or object to the processing of your personal data, and to complain to a data protection authority.</p>
+    <ul>
+      <li><strong>Your workout data</strong> is on your device only; you control it fully and can delete it by deleting the app.</li>
+      <li><strong>Analytics data</strong> is anonymous: I have no way to tell which events came from you, so I cannot look them up. Deleting or reinstalling the app ends the link between your device and any previously sent events. If you have a question or request anyway, write to <a href="mailto:hyperbro.app@gmail.com">hyperbro.app@gmail.com</a>.</li>
+      <li><strong>Your waitlist email</strong> can be removed with the unsubscribe link in any email, or by writing to me.</li>
+    </ul>
+
+    <h2 id="7-children">7. Children</h2>
+    <p>Hyperbro is not directed at children under 16 and does not knowingly collect data from them.</p>
+
+    <h2 id="health-notice"><span id="7-health-notice"></span>8. Health notice</h2>
+    <p>Hyperbro is a training log and planning tool, not a medical device, and it does not give medical advice. Its suggested weights, reps and rest times are calculated from what you logged and may not suit your health, fitness level or injuries. Consult a doctor before starting or changing an exercise programme, especially if you have a medical condition, an injury or are pregnant. Stop exercising and seek medical help if you feel pain, dizziness or shortness of breath. You train at your own risk.</p>
+
+    <h2 id="9-changes">9. Changes</h2>
+    <p>If what the app or this website collects changes, this page will be updated before the change goes live, and the date at the top will change.</p>
+
+    <h2 id="10-contact">10. Contact</h2>
+    <p>Questions about this policy or your data: <a href="mailto:hyperbro.app@gmail.com">hyperbro.app@gmail.com</a>.</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="year">2026</span> Hyperbro</span>
+    <nav aria-label="Footer">
+      <a href="./">Home</a>
+      <a href="support.html">Support</a>
+      <a href="privacy-policy.html" aria-current="page">Privacy policy</a>
+    </nav>
+  </div>
+</footer>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
