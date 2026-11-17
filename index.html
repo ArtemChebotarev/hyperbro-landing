@@ -163,7 +163,7 @@ h3 {
 .site-footer .brand img { width: 28px; height: 28px; }
 
 /* ---------- Hero ---------- */
-.hero { padding: clamp(28px, 6vw, 64px) 0 clamp(64px, 9vw, 112px); }
+.hero { padding: clamp(28px, 6vw, 64px) 0 clamp(64px, 9vw, 112px); overflow-x: clip; } /* the phone glow is wider than the viewport on phones */
 .hero .wrap { display: grid; gap: clamp(40px, 6vw, 64px); align-items: center; }
 .hero h1 { font-size: var(--fs-hero); }
 .hero-sub { margin: 1.1em 0 1.6em; font-size: clamp(1.05rem, 1rem + 0.35vw, 1.22rem); max-width: 31em; }
@@ -178,16 +178,18 @@ h3 {
   width: 100%;
 }
 .hero-visual { display: flex; justify-content: center; }
-/* Hero phone: cropped store screenshot, no frame. Edges fade into the page so the glow blends in. */
-.hero-phone {
-  width: 100%; max-width: 380px; height: auto;
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%),
-                      linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%),
-              linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
-  mask-composite: intersect;
+/* Hero phone: phone + popped-out card cut from the store screenshot on a transparent background.
+   The glow is pure CSS behind it, so it can be as wide and soft as needed without clipping. */
+.hero-phone-wrap { position: relative; isolation: isolate; width: 100%; max-width: 320px; }
+.hero-phone-wrap::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  left: 50%; top: 50%; width: 190%; height: 130%; transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side,
+    rgba(205, 255, 87, .20) 0%, rgba(205, 255, 87, .15) 35%, rgba(205, 255, 87, .09) 55%,
+    rgba(205, 255, 87, .04) 74%, rgba(205, 255, 87, .012) 88%, rgba(205, 255, 87, 0) 100%);
+  filter: blur(36px);
 }
+.hero-phone { width: 100%; height: auto; }
 
 /* ---------- Sections ---------- */
 .section { padding-block: clamp(64px, 10vw, 120px); }
@@ -411,7 +413,7 @@ h3 {
 @media (min-width: 1024px) {
   .hero .wrap { grid-template-columns: 1.2fr 0.8fr; }
   .hero-visual { justify-content: flex-end; }
-  .hero-phone { max-width: 420px; }
+  .hero-phone-wrap { max-width: 350px; }
   .problem .wrap { grid-template-columns: 1fr 1fr; gap: 72px; }
   .problem .log { justify-self: end; }
   .combo .wrap { grid-template-columns: 1.1fr 0.9fr; gap: 72px; }
@@ -471,9 +473,11 @@ h3 {
         </div>
       </div>
       <div class="hero-visual">
-        <img class="hero-phone" id="hero-shot" src="images/01-hero-phone.webp" width="760" height="1299"
+        <div class="hero-phone-wrap">
+        <img class="hero-phone" id="hero-shot" src="images/01-hero-phone.webp" width="900" height="1677"
              fetchpriority="high" decoding="async"
              alt="Hyperbro on iPhone: a week 3 upper/lower workout with lateral raise sets logged at 5 kg for 27, 26 and 23 reps, marked 2 reps in reserve.">
+        </div>
       </div>
     </div>
   </section>
