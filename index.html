@@ -29,7 +29,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
-<link rel="preload" as="image" href="images/01-next-weight.webp" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="images/01-hero-phone.webp" type="image/webp" fetchpriority="high">
 
 <style>
 /* Hyperbro Design SDK tokens */
@@ -158,6 +158,7 @@ h3 {
   font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em;
 }
 .brand img { width: 32px; height: 32px; flex: none; }
+.brand--wordmark img { width: auto; height: 26px; }
 .site-footer .brand { font-size: 1.1rem; }
 .site-footer .brand img { width: 28px; height: 28px; }
 
@@ -177,7 +178,16 @@ h3 {
   width: 100%;
 }
 .hero-visual { display: flex; justify-content: center; }
-.hero-visual .shot { max-width: 360px; }
+/* Hero phone: cropped store screenshot, no frame. Edges fade into the page so the glow blends in. */
+.hero-phone {
+  width: 100%; max-width: 380px; height: auto;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%),
+                      linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%),
+              linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
+  mask-composite: intersect;
+}
 
 /* ---------- Sections ---------- */
 .section { padding-block: clamp(64px, 10vw, 120px); }
@@ -401,7 +411,7 @@ h3 {
 @media (min-width: 1024px) {
   .hero .wrap { grid-template-columns: 1.2fr 0.8fr; }
   .hero-visual { justify-content: flex-end; }
-  .hero-visual .shot { max-width: 380px; }
+  .hero-phone { max-width: 420px; }
   .problem .wrap { grid-template-columns: 1fr 1fr; gap: 72px; }
   .problem .log { justify-self: end; }
   .combo .wrap { grid-template-columns: 1.1fr 0.9fr; gap: 72px; }
@@ -430,10 +440,8 @@ h3 {
 
 <header class="site-header">
   <div class="wrap">
-    <!-- The vector wordmark (assets/brand/hyperbro-wordmark-dark.svg) can replace the text later. -->
-    <a class="brand" href="#top" id="brand-header">
-      <img src="images/icon-128.png" width="128" height="128" alt="">
-      <span>Hyperbro</span>
+    <a class="brand brand--wordmark" href="#top" id="brand-header">
+      <img src="images/hyperbro-wordmark.svg" width="2595" height="670" alt="Hyperbro">
     </a>
     <!-- PLACEHOLDER: App Store link. Final href pattern:
          https://apps.apple.com/app/idAPP_ID?pt=PROVIDER_TOKEN&ct=landing_header&mt=8 -->
@@ -463,9 +471,9 @@ h3 {
         </div>
       </div>
       <div class="hero-visual">
-        <img class="shot" id="hero-shot" src="images/01-next-weight.webp" width="720" height="1565"
+        <img class="hero-phone" id="hero-shot" src="images/01-hero-phone.webp" width="760" height="1299"
              fetchpriority="high" decoding="async"
-             alt="Hyperbro screen headed 'Your next weight, calculated': a week 3 upper/lower workout with lateral raise sets logged at 5 kg for 27, 26 and 23 reps, marked 2 reps in reserve.">
+             alt="Hyperbro on iPhone: a week 3 upper/lower workout with lateral raise sets logged at 5 kg for 27, 26 and 23 reps, marked 2 reps in reserve.">
       </div>
     </div>
   </section>
