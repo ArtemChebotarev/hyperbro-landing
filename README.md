@@ -1,6 +1,6 @@
 # Hyperbro landing
 
-Static landing page for the Hyperbro iOS app, served by GitHub Pages from `main` (root).
+Static landing page for the Hyperbro iOS app at https://hyperbro.app, served by GitHub Pages from `main` (root). The domain is set in `CNAME`; DNS is on Cloudflare.
 
 - `index.html` — the whole page (inline CSS/JS)
 - `images/` — App Store screenshots and icons
