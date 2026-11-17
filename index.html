@@ -164,7 +164,7 @@ h3 {
 .hero .wrap { display: grid; gap: clamp(40px, 6vw, 64px); align-items: center; }
 .hero h1 { font-size: var(--fs-hero); }
 .hero-sub { margin: 1.1em 0 1.6em; font-size: clamp(1.05rem, 1rem + 0.35vw, 1.22rem); max-width: 31em; }
-.hero-cta { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.hero-cta { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; } /* centred while the hero is one column */
 .caption { font-size: var(--fs-small); color: var(--text-muted); margin: 0; }
 
 .shot {
@@ -404,12 +404,12 @@ h3 {
   .site-header .wrap { justify-content: flex-start; }
   .site-header .brand--wordmark img { height: 32px; }
   .steps { grid-template-columns: repeat(3, 1fr); }
-  .hero-cta { flex-direction: row; align-items: center; gap: 18px; }
   .footer-nav { grid-template-columns: repeat(2, max-content); column-gap: 72px; }
   .early-card { grid-template-columns: 1fr auto; align-items: end; }
 }
 
 @media (min-width: 1024px) {
+  .hero-cta { flex-direction: row; align-items: center; gap: 18px; text-align: left; }
   .hero .wrap { grid-template-columns: 1.2fr 0.8fr; }
   .hero-visual { justify-content: flex-end; }
   .hero-phone-wrap { max-width: 350px; }
@@ -462,7 +462,7 @@ h3 {
             <svg aria-hidden="true"><use href="#apple"/></svg>
             <span><small>Download on the</small><b>App Store</b></span>
           </a>
-          <p class="caption">Free during early access · iPhone</p>
+          <p class="caption">Free during early access</p>
         </div>
       </div>
       <div class="hero-visual">
