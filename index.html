@@ -146,7 +146,7 @@ h3 {
 .appstore b { font-size: 21px; font-weight: 500; letter-spacing: -0.01em; }
 
 /* ---------- Header ---------- */
-.site-header { padding-top: max(14px, env(safe-area-inset-top)); padding-bottom: 14px; }
+.site-header { padding-top: calc(28px + env(safe-area-inset-top)); padding-bottom: 14px; }
 .site-header .wrap { display: flex; align-items: center; justify-content: center; }
 .brand {
   display: inline-flex; align-items: center; gap: 10px; min-height: 44px;
@@ -155,8 +155,10 @@ h3 {
 }
 .brand img { width: 32px; height: 32px; flex: none; }
 .brand--wordmark img { width: auto; height: 32px; }
-/* Header: logo only. Centred and larger on phones, left-aligned from 640px up. */
-.site-header .brand--wordmark img { height: 52px; }
+/* Header: logo only. On phones it is centred and as wide as the phone body in the hero shot.
+   The shot is full column width capped at 320px, and the phone body is 88% of it (947 of 1076 px,
+   the rest is the card sticking out). Left-aligned and 32px tall from 640px up. */
+.site-header .brand--wordmark img { width: calc(min(320px, 100vw - 2 * var(--gutter)) * 0.88); height: auto; }
 .site-footer .brand--wordmark img { width: auto; height: 28px; }
 
 /* ---------- Hero ---------- */
@@ -401,8 +403,9 @@ h3 {
 
 /* ---------- Breakpoints ---------- */
 @media (min-width: 640px) {
+  .site-header { padding-top: max(14px, env(safe-area-inset-top)); }
   .site-header .wrap { justify-content: flex-start; }
-  .site-header .brand--wordmark img { height: 32px; }
+  .site-header .brand--wordmark img { width: auto; height: 32px; }
   .steps { grid-template-columns: repeat(3, 1fr); }
   .footer-nav { grid-template-columns: repeat(2, max-content); column-gap: 72px; }
   .early-card { grid-template-columns: 1fr auto; align-items: end; }
