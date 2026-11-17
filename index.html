@@ -130,19 +130,28 @@ h3 {
 .lede { max-width: 36em; }
 
 /* ---------- App Store badge (placeholder recreation; swap for Apple's official SVG badge) ---------- */
-.appstore {
-  display: inline-flex; align-items: center; gap: 9px;
-  min-height: 52px; padding: 7px 18px 7px 14px;
-  background: #000; color: #fff;
-  border: 1px solid #A6A6A6; border-radius: 11px;
-  text-decoration: none; line-height: 1;
-  transition: border-color .15s ease;
+/* Store buttons. App Store: Apple's official badge artwork, unmodified (App Store marketing
+   guidelines: at least 40px tall on screen, clear space of a quarter of its height). The Android
+   waitlist button is drawn to the badge's exact size, corners and border so the pair matches. */
+.store-btns {
+  --badge-h: 52px; --badge-w: calc(var(--badge-h) * 2.9916); /* the badge's 119.66 × 40 ratio */
+  display: inline-grid; grid-template-columns: repeat(2, var(--badge-w));
+  gap: calc(var(--badge-h) / 4);
 }
-.appstore:hover { border-color: #fff; }
-.appstore svg { width: 26px; height: 26px; flex: none; }
-.appstore span { display: flex; flex-direction: column; gap: 3px; }
-.appstore small { font-size: 11px; font-weight: 400; }
-.appstore b { font-size: 21px; font-weight: 500; letter-spacing: -0.01em; }
+.badge-appstore { display: block; width: var(--badge-w); height: var(--badge-h); border-radius: calc(var(--badge-h) * .22); }
+.badge-appstore img { display: block; width: 100%; height: 100%; }
+.badge-android {
+  display: flex; align-items: center; justify-content: center; gap: calc(var(--badge-h) * .16);
+  width: var(--badge-w); height: var(--badge-h); box-sizing: border-box;
+  background: #000; color: #fff; border: 1px solid #A6A6A6; border-radius: calc(var(--badge-h) * .22);
+  text-decoration: none; line-height: 1;
+}
+.badge-android svg { width: calc(var(--badge-h) * .5); height: calc(var(--badge-h) * .5); flex: none; }
+.badge-android span { display: flex; flex-direction: column; align-items: flex-start; gap: calc(var(--badge-h) * .06); text-align: left; } /* same in hero (centred text) and card */
+.badge-android small { font-size: calc(var(--badge-h) * .21); font-weight: 400; }
+.badge-android b { font-size: calc(var(--badge-h) * .39); font-weight: 500; letter-spacing: -0.01em; }
+@media (max-width: 639px) { .store-btns { --badge-h: 44px; } } /* phones: two badges + clear space fit the card */
+@media (max-width: 359px) { .store-btns { grid-template-columns: var(--badge-w); } } /* too narrow for two: stack */
 
 /* ---------- Header ---------- */
 .site-header { padding-top: calc(28px + env(safe-area-inset-top)); padding-bottom: 14px; }
@@ -282,8 +291,13 @@ h3 {
 }
 .early-card h2 { color: var(--on-accent); }
 .early-card p { max-width: 34em; font-size: clamp(1.02rem, 1rem + .3vw, 1.2rem); }
-.early-card .appstore { border-color: #000; justify-self: start; } /* not stretched by the one-column grid on phones */
-.early-card .appstore:focus-visible { outline-color: var(--on-accent); }
+.early-card .store-btns { justify-self: start; } /* not stretched by the one-column grid on phones */
+/* Phones: a slimmer card padding so the two badges fit side by side, centred. */
+@media (max-width: 639px) {
+  .early-card { padding: 28px 22px; }
+  .early-card .store-btns { justify-self: center; }
+}
+.early-card .store-btns a:focus-visible { outline-color: var(--on-accent); }
 
 /* Signup form */
 .signup .wrap { display: grid; gap: 32px; }
@@ -383,7 +397,7 @@ h3 {
 }
 
 @media (min-width: 1024px) {
-  .hero-cta { flex-direction: row; align-items: center; gap: 18px; text-align: left; }
+  .hero-cta { align-items: flex-start; gap: 12px; text-align: left; }
   .hero .wrap { grid-template-columns: 1.2fr 0.8fr; gap: clamp(40px, 6vw, 64px); }
   .hero-visual { justify-content: flex-end; }
   .hero-phone-wrap { max-width: 350px; }
@@ -406,8 +420,8 @@ h3 {
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <symbol id="apple" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+    <symbol id="android" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 0 0-.83.22l-1.88 3.24a11.43 11.43 0 0 0-8.94 0L5.65 5.67a.643.643 0 0 0-.87-.2c-.28.18-.37.54-.22.83L6.4 9.48A10.81 10.81 0 0 0 1 18h22a10.81 10.81 0 0 0-5.4-8.52M7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5m10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/>
     </symbol>
   </defs>
 </svg>
@@ -429,10 +443,13 @@ h3 {
         <h1 class="display" id="hero-title">Know exactly what to lift <span class="accent">next week</span></h1>
         <p class="hero-sub">Pick your weights once.<br>Hyperbro takes it from there.</p>
         <div class="hero-cta">
-          <a class="appstore js-appstore" href="https://apps.apple.com/app/id6821976908" data-cta="hero" id="appstore-hero">
-            <svg aria-hidden="true"><use href="#apple"/></svg>
-            <span><small>Download on the</small><b>App Store</b></span>
+          <div class="store-btns">
+          <a class="badge-appstore js-appstore" href="https://apps.apple.com/app/id6821976908" data-cta="hero" id="appstore-hero"><img src="assets/brand/app-store-badge.svg" width="120" height="40" alt="Download on the App Store"></a>
+          <a class="badge-android js-android" href="#waitlist" id="android-hero">
+            <svg aria-hidden="true"><use href="#android"/></svg>
+            <span><small>Waitlist for</small><b>Android</b></span>
           </a>
+          </div>
           <p class="caption">Free during early access</p>
         </div>
       </div>
@@ -514,10 +531,13 @@ h3 {
           <h2 class="display" id="early-title">Free during early access</h2>
           <p>Hyperbro is free to use while it's in early access. When paid plans arrive, everyone who joined early gets a bonus for being here first.</p>
         </div>
-        <a class="appstore js-appstore" href="https://apps.apple.com/app/id6821976908" data-cta="early" id="appstore-early">
-          <svg aria-hidden="true"><use href="#apple"/></svg>
-          <span><small>Download on the</small><b>App Store</b></span>
-        </a>
+        <div class="store-btns">
+          <a class="badge-appstore js-appstore" href="https://apps.apple.com/app/id6821976908" data-cta="early" id="appstore-early"><img src="assets/brand/app-store-badge.svg" width="120" height="40" alt="Download on the App Store"></a>
+          <a class="badge-android js-android" href="#waitlist" id="android-early">
+            <svg aria-hidden="true"><use href="#android"/></svg>
+            <span><small>Waitlist for</small><b>Android</b></span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -715,6 +735,17 @@ h3 {
   var err = document.getElementById('signup-error');
   var tags = document.getElementById('tags');
   var hp = document.getElementById('website');
+
+  /* "Waitlist for Android" buttons: jump to the form (plain #waitlist link) with Android picked. */
+  Array.prototype.forEach.call(document.querySelectorAll('.js-android'), function (a) {
+    a.addEventListener('click', function () {
+      var r = form.querySelector('input[name="platform"][value="android"]');
+      if (r && !r.checked) {
+        r.checked = true;
+        r.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+  });
 
   function platform() {
     var c = form.querySelector('input[name="platform"]:checked');
