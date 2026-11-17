@@ -303,37 +303,22 @@ h3 {
 .signup .wrap { display: grid; gap: 32px; }
 .form {
   background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-m);
-  padding: clamp(20px, 4vw, 32px); display: grid; gap: 20px; max-width: 560px; width: 100%;
+  padding: clamp(20px, 4vw, 28px); display: grid; gap: 14px; max-width: 520px; width: 100%;
 }
-.field label, .field legend { display: block; color: var(--text-primary); font-weight: 500; margin-bottom: 8px; padding: 0; }
-.field fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.form-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.form > [hidden] { display: none; } /* after a successful sign-up only the message stays */
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .input {
-  width: 100%; min-height: 52px; padding: 12px 14px;
+  width: 100%; min-width: 0; min-height: 52px; padding: 12px 14px;
   font: inherit; color: var(--text-primary); background: var(--bg-sheet);
   border: 1px solid var(--border); border-radius: var(--radius-s);
 }
 .input::placeholder { color: var(--text-faint); }
 .input:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; border-color: transparent; }
 .input[aria-invalid="true"] { border-color: var(--error); }
-
-.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.seg label { margin: 0; position: relative; }
-.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-.seg span {
-  display: flex; align-items: center; justify-content: center; text-align: center;
-  min-height: 52px; padding: 8px 10px; border-radius: var(--radius-s);
-  border: 1px solid var(--border); background: var(--bg-sheet); color: var(--text-secondary);
-  cursor: pointer; font-weight: 500; line-height: 1.2;
-}
-.seg input:checked + span { background: var(--accent-chip-bg); color: var(--accent); border-color: var(--accent-border); }
-.seg input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
-.hint { color: var(--text-muted); font-size: var(--fs-small); margin-top: 8px; }
-
-.consent { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; font-size: var(--fs-small); }
-.consent input { width: 24px; height: 24px; margin: 2px 0 0; accent-color: var(--accent); }
-.consent label { padding-top: 3px; }
-.consent a { color: var(--text-primary); text-underline-offset: 2px; }
-.error { color: var(--error); font-size: var(--fs-small); margin-top: 6px; }
+.hint { color: var(--text-muted); font-size: var(--fs-small); margin: 0; }
+.hint a { color: var(--text-secondary); text-underline-offset: 2px; }
+.error { color: var(--error); font-size: var(--fs-small); margin: -6px 0 0; }
 .error:empty { display: none; }
 
 .btn {
@@ -547,49 +532,28 @@ h3 {
     <div class="wrap">
       <div>
         <h2 class="display" id="signup-title">On Android? <span class="accent">Join the waitlist</span></h2>
-        <p class="lede">Hyperbro is iPhone-only for now. An Android version is planned. Leave your email and we'll tell you when it's ready.</p>
-        <p class="lede">On iPhone already? Sign up for occasional updates about new features and paid plans.</p>
+        <p class="lede">Hyperbro is iPhone-only for now. Leave your email and we'll tell you when Android is ready.</p>
       </div>
 
-      <!-- PLACEHOLDER: newsletter endpoint. Swap action (and field names if your provider needs others,
-           e.g. EMAIL / tags) or replace this <form> with the provider's embed, keeping the ids below. -->
-      <form class="form" id="signup-form" action="#NEWSLETTER_ENDPOINT" method="post" aria-describedby="signup-note">
-        <div class="field">
-          <label for="email">Email</label>
-          <input class="input" id="email" name="email" type="email" autocomplete="email" inputmode="email"
+      <!-- MailerLite embedded form "Android waitlist" (adds to the group of the same name, double opt-in).
+           The script posts only fields[email] + MailerLite's two service fields; without JS the browser
+           posts the form itself. -->
+      <form class="form" id="signup-form" action="https://assets.mailerlite.com/jsonp/2804403/forms/204417243659896628/subscribe" method="post" aria-describedby="signup-note">
+        <label class="visually-hidden" for="email">Email</label>
+        <div class="form-row">
+          <input class="input" id="email" name="fields[email]" type="email" autocomplete="email" inputmode="email"
                  placeholder="you@example.com" required aria-describedby="email-error">
-          <p class="error" id="email-error" aria-live="polite"></p>
+          <button class="btn" type="submit" id="signup-submit">Join</button>
         </div>
-
-        <div class="field">
-          <fieldset>
-            <legend>Which phone do you use?</legend>
-            <div class="seg">
-              <label><input type="radio" name="platform" value="ios" checked><span>I'm on iPhone</span></label>
-              <label><input type="radio" name="platform" value="android"><span>I'm on Android</span></label>
-            </div>
-          </fieldset>
-          <p class="hint" id="signup-note">Android sign-ups are added to the Android waitlist.</p>
-          <!-- Tag sent to the newsletter service; set by script from the choice above.
-               Without JS, use the "platform" field (ios / android) to segment. -->
-          <input type="hidden" name="tags" id="tags" value="ios">
-        </div>
-
+        <p class="error" id="email-error" aria-live="polite"></p>
+        <input type="hidden" name="ml-submit" value="1">
+        <input type="hidden" name="anticsrf" value="true">
         <!-- Honeypot: leave empty. Bots tend to fill it. -->
         <div class="hp" aria-hidden="true">
           <label for="website">Website</label>
           <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
         </div>
-
-        <div>
-          <div class="consent">
-            <input id="consent" name="consent" type="checkbox" value="yes" required aria-describedby="consent-error">
-            <label for="consent">I agree to receive emails about Hyperbro. Unsubscribe anytime. Read the <a href="https://artemchebotarev.github.io/gym-tracker-mobile/privacy-policy">privacy policy</a>.</label>
-          </div>
-          <p class="error" id="consent-error" aria-live="polite"></p>
-        </div>
-
-        <button class="btn" type="submit" id="signup-submit">Sign up</button>
+        <p class="hint" id="signup-note">One email when Android launches. Unsubscribe anytime. <a href="https://artemchebotarev.github.io/gym-tracker-mobile/privacy-policy">Privacy policy</a></p>
 
         <div class="status status--ok" id="signup-success" role="status" tabindex="-1" hidden></div>
         <div class="status status--err" id="signup-error" role="alert" hidden>Couldn't sign you up just now. Check your connection and try again.</div>
@@ -727,52 +691,24 @@ h3 {
   form.noValidate = true;
 
   var email = document.getElementById('email');
-  var consent = document.getElementById('consent');
   var emailErr = document.getElementById('email-error');
-  var consentErr = document.getElementById('consent-error');
   var submit = document.getElementById('signup-submit');
   var ok = document.getElementById('signup-success');
   var err = document.getElementById('signup-error');
-  var tags = document.getElementById('tags');
   var hp = document.getElementById('website');
 
-  /* "Waitlist for Android" buttons: jump to the form (plain #waitlist link) with Android picked. */
-  Array.prototype.forEach.call(document.querySelectorAll('.js-android'), function (a) {
-    a.addEventListener('click', function () {
-      var r = form.querySelector('input[name="platform"][value="android"]');
-      if (r && !r.checked) {
-        r.checked = true;
-        r.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-    });
-  });
-
-  function platform() {
-    var c = form.querySelector('input[name="platform"]:checked');
-    return c ? c.value : 'ios';
-  }
-  form.addEventListener('change', function (e) {
-    if (e.target.name === 'platform') tags.value = platform() === 'android' ? 'android-waitlist' : 'ios';
-    if (e.target === consent && consent.checked) { consentErr.textContent = ''; consent.removeAttribute('aria-invalid'); }
-  });
   email.addEventListener('input', function () {
     if (email.getAttribute('aria-invalid') && email.validity.valid) { emailErr.textContent = ''; email.removeAttribute('aria-invalid'); }
   });
 
   function validate() {
-    var first = null;
-    emailErr.textContent = ''; consentErr.textContent = '';
-    email.removeAttribute('aria-invalid'); consent.removeAttribute('aria-invalid');
-    if (!email.value.trim()) {
-      emailErr.textContent = 'Enter your email address.'; email.setAttribute('aria-invalid', 'true'); first = email;
-    } else if (!email.validity.valid || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
-      emailErr.textContent = 'Enter an email like name@example.com.'; email.setAttribute('aria-invalid', 'true'); first = email;
-    }
-    if (!consent.checked) {
-      consentErr.textContent = 'Tick the box to agree to receive emails.'; consent.setAttribute('aria-invalid', 'true'); first = first || consent;
-    }
-    if (first) first.focus();
-    return !first;
+    emailErr.textContent = ''; email.removeAttribute('aria-invalid');
+    var v = email.value.trim();
+    if (!v) emailErr.textContent = 'Enter your email address.';
+    else if (!email.validity.valid || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) emailErr.textContent = 'Enter an email like name@example.com.';
+    if (!emailErr.textContent) return true;
+    email.setAttribute('aria-invalid', 'true'); email.focus();
+    return false;
   }
 
   form.addEventListener('submit', function (e) {
@@ -781,24 +717,21 @@ h3 {
     if (!validate()) return;
     if (hp && hp.value) return; // likely a bot
 
-    var android = platform() === 'android';
-    tags.value = android ? 'android-waitlist' : 'ios';
-    var action = form.getAttribute('action') || '';
-    submit.disabled = true; submit.textContent = 'Signing up…';
+    submit.disabled = true; submit.textContent = 'Joining…';
 
-    var req = action.charAt(0) === '#'
-      ? new Promise(function (r) { setTimeout(r, 500); }) // placeholder endpoint: simulate success
-      : fetch(action, { method: 'POST', body: new FormData(form), mode: 'no-cors' });
-
-    req.then(function () {
-      ok.textContent = android
-        ? "You're on the Android waitlist. We'll email " + email.value.trim() + " when it's ready."
-        : "You're signed up. Updates will go to " + email.value.trim() + ".";
+    // MailerLite answers with CORS and JSON ({ success: true } or errors), so a refusal shows as one.
+    var body = new URLSearchParams({ 'fields[email]': email.value.trim(), 'ml-submit': '1', 'anticsrf': 'true' });
+    fetch(form.action, { method: 'POST', body: body })
+      .then(function (res) { return res.json().catch(function () { return {}; }).then(function (j) {
+        if (!res.ok || j.success === false) throw new Error('rejected');
+      }); })
+      .then(function () {
+      ok.textContent = "Almost there. Check " + email.value.trim() + " and confirm your email to join the Android waitlist.";
       Array.prototype.forEach.call(form.children, function (el) { if (el !== ok && el !== err) el.hidden = true; });
       ok.hidden = false; ok.focus();
     }).catch(function () {
       err.hidden = false;
-      submit.disabled = false; submit.textContent = 'Sign up';
+      submit.disabled = false; submit.textContent = 'Join';
     });
   });
 })();
