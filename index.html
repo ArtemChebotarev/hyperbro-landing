@@ -67,7 +67,7 @@
   --fs-body: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
   --fs-small: 0.875rem;
   --fs-h3: clamp(1.1rem, 1.02rem + 0.35vw, 1.3rem);
-  --fs-h2: clamp(1.9rem, 1.35rem + 2.3vw, 3rem);
+  --fs-h2: clamp(2.25rem, 1.6rem + 2.8vw, 3rem); /* ~36px on a 375px phone, 48px max */
   --fs-hero: clamp(2.45rem, 1.5rem + 4.6vw, 4.6rem);
 }
 
@@ -182,7 +182,7 @@ h3 {
 .hero { padding: clamp(28px, 6vw, 64px) 0 clamp(64px, 9vw, 112px); overflow-x: clip; } /* the phone glow is wider than the viewport on phones */
 .hero .wrap { display: grid; gap: 16px; align-items: center; } /* one column: phone sits close under the button */
 .hero h1 { font-size: var(--fs-hero); }
-.hero-sub { margin: 1.1em 0 1.6em; font-size: clamp(1.05rem, 1rem + 0.35vw, 1.22rem); max-width: 31em; }
+.hero-sub { margin: 1.1em 0 1.6em; font-size: clamp(1.05rem, 1rem + 0.35vw, 1.22rem); max-width: 31em; text-wrap: balance; }
 .hero-cta { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; } /* centred while the hero is one column */
 .caption { font-size: var(--fs-small); color: var(--text-muted); margin: 0; }
 
@@ -214,78 +214,33 @@ h3 {
 
 /* Problem */
 .problem .wrap { display: grid; gap: 40px; align-items: center; }
-.log {
-  margin: 0;
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-m);
-  padding: 20px 20px 18px; max-width: 460px; width: 100%;
+/* The popup the app shows after Finish (components/FinishDialog.tsx): today's best set per exercise
+   and what next week's same day asks of it. Rebuilt in HTML, without its button. */
+.finish {
+  margin: 0; max-width: 400px; width: 100%;
+  background: var(--bg-sheet); border: 1px solid var(--border); border-radius: 18px;
+  padding: 28px 22px 22px; box-shadow: 0 30px 70px -30px rgba(0, 0, 0, .8);
+  color: var(--text-secondary); font-size: 15px; line-height: 21px;
 }
-.log-head { color: var(--text-primary); font-weight: 500; margin-bottom: 10px; }
-.log ol { list-style: none; margin: 0; padding: 0; }
-.log li {
-  display: grid; grid-template-columns: 4.6em 1fr; gap: 12px;
-  padding: 11px 0; border-top: 1px solid var(--border);
-  font-variant-numeric: tabular-nums; color: var(--text-primary);
+.finish-title { color: var(--text-primary); font-size: 22px; line-height: 28px; font-weight: 500; }
+.finish-meta { margin-top: 4px; }
+.finish-lead { margin: 16px 0 0; }
+.finish-lead b, .finish-next b { color: var(--text-primary); font-weight: 500; }
+.finish ul {
+  list-style: none; margin: 12px 0 0; padding: 4px 14px;
+  background: var(--accent-chip-bg); border: 1px solid var(--accent-border); border-radius: 10px;
 }
-.log time { color: var(--text-muted); }
-.log-foot { margin-top: 12px; color: var(--text-muted); font-size: var(--fs-small); }
-
-/* Steps */
-.steps-head { max-width: 40em; margin-bottom: clamp(32px, 5vw, 56px); }
-.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
-.step {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius-m); padding: 24px 22px 22px;
-  display: flex; flex-direction: column; gap: 6px;
-}
-.step-n {
-  display: inline-grid; place-items: center; width: 40px; height: 40px; margin-bottom: 12px;
-  border-radius: 12px; background: var(--accent-chip-bg); border: 1px solid var(--accent-border);
-  color: var(--accent); font-weight: 500; font-size: 1.1rem; font-variant-numeric: tabular-nums;
-}
-.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 14px; }
-.chip {
-  border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px;
-  font-size: var(--fs-small); font-variant-numeric: tabular-nums;
-  background: var(--bg-sheet); color: var(--text-secondary);
-}
-.chip b { font-weight: 500; color: var(--text-primary); }
-.chip--accent { background: var(--accent-chip-bg); border-color: var(--accent-border); color: var(--accent); font-weight: 500; }
-
-/* Lifting + intervals */
-.combo .wrap { display: grid; gap: 44px; align-items: center; }
-.week { list-style: none; margin: 1.6em 0 0; padding: 0; border-top: 1px solid var(--border); max-width: 34em; }
-.week > li { padding: 12px 0; border-bottom: 1px solid var(--border); }
-.week .row, .week .addon { display: grid; grid-template-columns: 3em 1fr auto; align-items: center; gap: 12px; }
-.week .day { color: var(--text-muted); }
-.week .name { color: var(--text-primary); }
-.week .detail { color: var(--text-muted); font-size: var(--fs-small); font-variant-numeric: tabular-nums; text-align: right; }
-.week .addon { margin-top: 8px; font-size: var(--fs-small); }
-.week .tag {
-  justify-self: start; padding: 3px 9px; border-radius: 7px;
-  background: var(--accent-chip-bg); border: 1px solid var(--accent-border); color: var(--accent);
-}
-
-.timer {
-  margin: 0; justify-self: center;
-  width: min(340px, 100%);
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 28px;
-  padding: 22px 24px 24px; text-align: center;
-}
-.timer-head { color: var(--text-primary); font-weight: 500; }
-.timer-sub { color: var(--text-muted); font-size: var(--fs-small); margin-bottom: 14px; }
-.timer-ring { position: relative; width: 78%; margin: 0 auto 18px; aspect-ratio: 1; }
-.timer-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.timer-read { position: absolute; inset: 0; display: grid; place-content: center; gap: 2px; }
-.timer-time {
-  color: var(--text-primary); font-weight: 500; letter-spacing: -0.02em;
-  font-size: clamp(2.6rem, 2rem + 3vw, 3.4rem); line-height: 1; font-variant-numeric: tabular-nums;
-}
-.timer-label { color: var(--text-muted); font-size: var(--fs-small); }
-.timer-action {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-height: 44px; padding: 0 22px; border-radius: 22px;
-  border: 1px solid var(--brand-orange); color: var(--brand-orange);
-  font-weight: 500; font-size: var(--fs-small);
+.finish li { display: flex; align-items: center; gap: 8px; min-height: 36px; font-variant-numeric: tabular-nums; }
+.finish .name { flex: 1; min-width: 0; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.finish .value { flex: none; font-size: 13px; }
+.finish .delta { flex: none; width: 76px; text-align: right; font-size: 13px; color: var(--accent); }
+.finish-next { margin: 16px 0 0; padding-left: 4px; }
+@media (max-width: 359px) {
+  .finish { padding: 24px 14px 18px; font-size: 14px; }
+  .finish ul { padding: 4px 10px; }
+  .finish li { gap: 6px; }
+  .finish .value, .finish .delta { font-size: 12px; }
+  .finish .delta { width: 62px; }
 }
 
 /* Screenshots strip */
@@ -424,7 +379,6 @@ h3 {
   .site-header .brand--wordmark::before { content: none; }
   .site-header .wrap { justify-content: flex-start; }
   .site-header .brand--wordmark img { width: auto; height: 32px; }
-  .steps { grid-template-columns: repeat(3, 1fr); }
   .footer-nav { grid-template-columns: repeat(2, max-content); column-gap: 72px; }
   .early-card { grid-template-columns: 1fr auto; align-items: end; }
 }
@@ -435,8 +389,7 @@ h3 {
   .hero-visual { justify-content: flex-end; }
   .hero-phone-wrap { max-width: 350px; }
   .problem .wrap { grid-template-columns: 1fr 1fr; gap: 72px; }
-  .problem .log { justify-self: end; }
-  .combo .wrap { grid-template-columns: 1.1fr 0.9fr; gap: 72px; }
+  .problem .finish { justify-self: end; }
   .shots-outer { padding-inline: var(--gutter); }
   .shots {
     grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); grid-auto-columns: auto;
@@ -474,8 +427,8 @@ h3 {
   <section class="hero" id="top" aria-labelledby="hero-title">
     <div class="wrap">
       <div>
-        <h1 class="display" id="hero-title">Know exactly what to lift <span class="accent">next week.</span></h1>
-        <p class="hero-sub">Hyperbro plans your progression set by set, so every week is a bit harder than the last. Log your workout, and the app sets next week's targets.</p>
+        <h1 class="display" id="hero-title">Know exactly what to lift <span class="accent">next week</span></h1>
+        <p class="hero-sub">Pick your weights once.<br>Hyperbro takes it from there.</p>
         <div class="hero-cta">
           <!-- PLACEHOLDER: App Store link with campaign token, e.g.
                https://apps.apple.com/app/idAPP_ID?pt=PROVIDER_TOKEN&ct=landing_hero&mt=8 -->
@@ -500,93 +453,20 @@ h3 {
   <section class="section band problem" aria-labelledby="problem-title">
     <div class="wrap">
       <div>
-        <h2 class="display" id="problem-title">Stuck at the same numbers?</h2>
-        <p class="lede">After the first few years, progress stops being automatic. You train by feel, repeat the same weights for months, and hope something moves.</p>
-        <p class="lede">A notes app keeps a perfect record of it. It logs everything and never tells you what to do next.</p>
+        <h2 class="display" id="problem-title">Most apps log your workout <span class="accent">Hyperbro plans the next one</span></h2>
       </div>
-      <figure class="log">
-        <div class="log-head">Bench press</div>
-        <ol>
-          <li><time datetime="2026-03-03">3 Mar</time><span>85 kg × 8, 8, 7</span></li>
-          <li><time datetime="2026-04-07">7 Apr</time><span>85 kg × 8, 8, 7</span></li>
-          <li><time datetime="2026-05-12">12 May</time><span>85 kg × 8, 7, 7</span></li>
-          <li><time datetime="2026-06-16">16 Jun</time><span>85 kg × 8, 8, 7</span></li>
-        </ol>
-        <figcaption class="log-foot">Four months of notes. Same bar.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <!-- How it works -->
-  <section class="section" aria-labelledby="how-title">
-    <div class="wrap">
-      <div class="steps-head">
-        <h2 class="display" id="how-title">How it works</h2>
-        <p class="lede">Three steps, repeated every week of the cycle.</p>
-      </div>
-      <ol class="steps">
-        <li class="step">
-          <span class="step-n" aria-hidden="true">1</span>
-          <h3>Start a cycle from a template</h3>
-          <p>Pick a template and your training days. Hyperbro lays out a multi-week cycle: exercises, sets and starting targets.</p>
-          <div class="chips" aria-hidden="true"><span class="chip">4 weeks</span><span class="chip">4 days</span><span class="chip">Upper / Lower</span></div>
-        </li>
-        <li class="step">
-          <span class="step-n" aria-hidden="true">2</span>
-          <h3>Log your sets</h3>
-          <p>Weight, reps, and how many more reps you could have done. That last number is called reps in reserve (RIR). An honest guess is enough.</p>
-          <div class="chips" aria-hidden="true"><span class="chip"><b>85</b> kg</span><span class="chip"><b>8</b> reps</span><span class="chip"><b>2</b> left in the tank</span></div>
-        </li>
-        <li class="step">
-          <span class="step-n" aria-hidden="true">3</span>
-          <h3>Get next week's targets</h3>
-          <p>Hyperbro reads how each set went and sets next week's weight and reps automatically, so each week is a bit harder than the last.</p>
-          <div class="chips" aria-hidden="true"><span class="chip">85 kg × 8</span><span class="chip chip--accent">87.5 kg × 8</span></div>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- Lifting + intervals -->
-  <section class="section band combo" aria-labelledby="combo-title">
-    <div class="wrap">
-      <div>
-        <h2 class="display" id="combo-title">Lifting and intervals <span class="accent">in one plan.</span></h2>
-        <p class="lede">Strength work drives the plan. Add power work and timed rounds, like heavy-bag rounds, to the same training days, and run them with the built-in timer for rest and intervals.</p>
-        <ul class="week" aria-label="Example training week">
-          <li>
-            <div class="row"><span class="day">Mon</span><span class="name">Upper A</span><span class="detail">5 exercises</span></div>
-            <div class="addon"><span></span><span class="tag">+ Heavy bag</span><span class="detail">6 × 3:00 rounds</span></div>
-          </li>
-          <li>
-            <div class="row"><span class="day">Tue</span><span class="name">Lower A</span><span class="detail">5 exercises</span></div>
-          </li>
-          <li>
-            <div class="row"><span class="day">Thu</span><span class="name">Upper B</span><span class="detail">5 exercises</span></div>
-            <div class="addon"><span></span><span class="tag">+ Med-ball throws</span><span class="detail">5 × 3</span></div>
-          </li>
-          <li>
-            <div class="row"><span class="day">Fri</span><span class="name">Lower B</span><span class="detail">5 exercises</span></div>
-            <div class="addon"><span></span><span class="tag">+ Intervals</span><span class="detail">10 × 0:20 / 0:40</span></div>
-          </li>
+      <figure class="finish" aria-label="Example of the screen after finishing a workout in Hyperbro">
+        <div class="finish-title">Day 1 done</div>
+        <div class="finish-meta">5 exercises · 16 sets</div>
+        <p class="finish-lead"><b>Progression added</b> to next week's Day 1.</p>
+        <ul>
+          <li><span class="name">Bench Press</span><span class="value">80 kg × 10</span><span class="delta">+1 rep</span></li>
+          <li><span class="name">Seated Row</span><span class="value">60 kg × 12</span><span class="delta">+1 rep</span></li>
+          <li><span class="name">Leg Press</span><span class="value">100 kg × 30</span><span class="delta">Go heavier</span></li>
+          <li><span class="name">Lat Pulldown</span><span class="value">55 kg × 12</span><span class="delta">+1 rep</span></li>
+          <li><span class="name">Plank</span><span class="value">0:40</span><span class="delta">+5 s</span></li>
         </ul>
-      </div>
-
-      <figure class="timer" role="img" aria-label="Round timer example: heavy bag, round 4 of 6, 2:14 left of 3:00">
-        <div class="timer-head">Heavy bag</div>
-        <div class="timer-sub">Round 4 of 6</div>
-        <div class="timer-ring">
-          <svg viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="52" fill="none" stroke="#2C3036" stroke-width="8"/>
-            <circle cx="60" cy="60" r="52" fill="none" stroke="#FF5B23" stroke-width="8" stroke-linecap="round"
-                    stroke-dasharray="326.7" stroke-dashoffset="83.5"/>
-          </svg>
-          <div class="timer-read">
-            <span class="timer-time">2:14</span>
-            <span class="timer-label">of 3:00</span>
-          </div>
-        </div>
-        <span class="timer-action">Pause</span>
+        <p class="finish-next">Up next: <b>Day 2</b></p>
       </figure>
     </div>
   </section>
@@ -634,7 +514,7 @@ h3 {
     <div class="wrap">
       <div class="early-card">
         <div>
-          <h2 class="display" id="early-title">Free during early access.</h2>
+          <h2 class="display" id="early-title">Free during early access</h2>
           <p>Hyperbro is free to use while it's in early access. When paid plans arrive, everyone who joined early gets a bonus for being here first.</p>
         </div>
         <!-- PLACEHOLDER: App Store link with campaign token, e.g. ...&ct=landing_early_access -->
@@ -650,7 +530,7 @@ h3 {
   <section class="section band signup" id="waitlist" aria-labelledby="signup-title">
     <div class="wrap">
       <div>
-        <h2 class="display" id="signup-title">On Android? <span class="accent">Join the waitlist.</span></h2>
+        <h2 class="display" id="signup-title">On Android? <span class="accent">Join the waitlist</span></h2>
         <p class="lede">Hyperbro is iPhone-only for now. An Android version is planned. Leave your email and we'll tell you when it's ready.</p>
         <p class="lede">On iPhone already? Sign up for occasional updates about new features and paid plans.</p>
       </div>
