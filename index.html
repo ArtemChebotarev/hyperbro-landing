@@ -11,7 +11,7 @@
 <meta name="apple-itunes-app" content="app-id=6821976908">
 
 <link rel="canonical" href="https://hyperbro.app/">
-<!-- Open Graph / Twitter. PLACEHOLDER: og-image.png (1200x630) must be created and placed next to index.html. -->
+<!-- Open Graph / Twitter. og-image.png (1200x630): logo, headline and the hero phone. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Hyperbro">
 <meta property="og:title" content="Hyperbro: know exactly what to lift next week">
@@ -387,8 +387,9 @@ h3 {
   .problem .finish { justify-self: end; }
   .shots-outer { padding-inline: var(--gutter); }
   .shots {
-    grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); grid-auto-columns: auto;
-    overflow: visible; padding-inline: 0; max-width: var(--maxw); margin-inline: auto; gap: 24px;
+    grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 290px)); grid-auto-columns: auto;
+    justify-content: start; /* six shots, 3 x 2, left edge in line with the heading */
+    overflow: visible; padding-inline: 0; max-width: var(--maxw); margin-inline: auto; gap: 28px;
   }
   .shots-controls { display: none !important; }
   .signup .wrap { grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
@@ -439,7 +440,7 @@ h3 {
         <div class="hero-phone-wrap">
         <img class="hero-phone" id="hero-shot" src="images/01-hero-phone.webp" width="900" height="1677"
              fetchpriority="high" decoding="async"
-             alt="Hyperbro on iPhone: a week 3 upper/lower workout with lateral raise sets logged at 5 kg for 27, 26 and 23 reps, marked 2 reps in reserve.">
+             alt="Hyperbro on iPhone, week 2 day 1: lateral raise at 8 kg, two sets done on target at 25 and 23 reps, the third set's target of 18 reps waiting, and a rest timer counting down before set 3.">
         </div>
       </div>
     </div>
@@ -477,6 +478,14 @@ h3 {
         <li id="shot-plan">
           <img class="shot" src="images/02-plan-cycle.webp" width="720" height="1565" loading="lazy" decoding="async"
                alt="Hyperbro screen headed 'Plan a cycle in minutes': reviewing an Upper / Lower template with boxing rounds, 4 weeks at 4 days per week, with day 1's exercises listed.">
+        </li>
+        <li id="shot-log-sets">
+          <img class="shot" src="images/01b-log-sets.webp" width="720" height="1565" loading="lazy" decoding="async"
+               alt="Hyperbro screen headed 'Log your sets in one tap': week 2 day 1, lateral raise at 8 kg with two sets logged on target and the third waiting, while the rest timer counts down before set 3.">
+        </li>
+        <li id="shot-next-weight">
+          <img class="shot" src="images/01-next-weight.webp" width="720" height="1565" loading="lazy" decoding="async"
+               alt="Hyperbro screen headed 'Your next weight, calculated': a week 3 upper/lower workout with lateral raise sets logged at 5 kg for 27, 26 and 23 reps, marked 2 reps in reserve.">
         </li>
         <li id="shot-progress">
           <img class="shot" src="images/05-progress.webp" width="720" height="1565" loading="lazy" decoding="async"
