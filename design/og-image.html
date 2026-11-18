@@ -1,0 +1,38 @@
+<!doctype html>
+<!--
+Source of og-image.png (1200x630, the link preview) and the base for the App Store promo image.
+Render from the repo root (headless Chrome, paths are relative to this file):
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu \
+    --hide-scrollbars --force-device-scale-factor=1 --window-size=1200,630 \
+    --allow-file-access-from-files --screenshot=og-image.png "file://$PWD/design/og-image.html"
+For another size, change width/height on html, body and --window-size, then re-place text and phone.
+After replacing og-image.png, bump ?v= on og:image and twitter:image in index.html (messengers cache previews).
+-->
+<html><head><meta charset="utf-8">
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #0E0F11; }
+  body { position: relative; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  .glow {
+    position: absolute; left: 895px; top: 315px; width: 900px; height: 820px; transform: translate(-50%, -50%);
+    background: radial-gradient(closest-side, rgba(205,255,87,.20) 0%, rgba(205,255,87,.14) 35%, rgba(205,255,87,.08) 55%, rgba(205,255,87,.03) 75%, rgba(205,255,87,0) 100%);
+    filter: blur(40px);
+  }
+  .text { position: absolute; left: 80px; top: 72px; width: 560px; }
+  .logo { height: 64px; width: auto; display: block; }
+  h1 { margin: 44px 0 0; color: #F5F5F4; font-size: 66px; line-height: 1.04; font-weight: 700; letter-spacing: -0.03em; }
+  h1 span { display: block; color: #CDFF57; }
+  p { margin: 24px 0 0; color: #C9CDD2; font-size: 27px; line-height: 1.4; }
+  .foot { position: absolute; left: 80px; bottom: 64px; color: #8A9099; font-size: 22px; letter-spacing: .01em; }
+  .foot b { color: #F5F5F4; font-weight: 600; }
+  .phone { position: absolute; left: 744px; top: 34px; width: 302px; height: auto; }
+</style></head>
+<body>
+  <div class="glow"></div>
+  <div class="text">
+    <img class="logo" src="../images/hyperbro-wordmark.svg" alt="">
+    <h1>Know exactly<br>what to lift <span>next week</span></h1>
+    <p>Pick your weights once.<br>Hyperbro takes it from there.</p>
+  </div>
+  <div class="foot"><b>hyperbro.app</b> · Free on iPhone</div>
+  <img class="phone" src="../images/01-hero-phone.webp" alt="">
+</body></html>
